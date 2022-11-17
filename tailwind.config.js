@@ -11,7 +11,7 @@ module.exports = {
         custom: {
           primary: "#00344D",
           secondary: "#021922",
-          tertiary: "#22CABA",
+          tertiary: "#209287",
         },
       },
     },

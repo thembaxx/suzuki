@@ -17,8 +17,8 @@ const Hero = () => {
           </p>
           <div className="flex items-center mt-8 gap-6">
             <p className="text-xs">
-              <span>From</span> <span className="font-bold">R 262 900</span>{" "}
-              <span className="font-bold text-red-600">*</span>
+              <span>From</span> <span className="font-bold">R 334 900</span>{" "}
+              <span className="font-bold text-red-600 ml-1">*</span>
             </p>
             <button className="text-[11px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary">
               Learn more
