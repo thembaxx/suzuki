@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <div className="bg-[#F7F7F7] text-custom-secondary py-12 px-16 rounded-t-2xl">
+    <div className="bg-[#F7F7F7] text-custom-secondary py-12 px-4 md:px-16 rounded-t-2xl">
       <h5 className="font-bold text-xs uppercase text-custom-tertiary">
         Get in touch
       </h5>
@@ -29,10 +29,10 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className="mt-6 text-gray-500 text-xs">
+      <p className="mt-6 text-[#72806b] text-xs">
         <span className="font-medium text-custom-secondary">{`© ${new Date().getFullYear()}. HeyCarter Ltd. All rights reserved.`}</span>
         <br />
-        <span>
+        <span className="inline-block mt-1 text-[10px]">
           HeyCarter Dealerships (Pty) Ltd is an Authorised Financial Services,
           Provider. FSP: 51498
         </span>

@@ -23,7 +23,7 @@ const items = [
 const MenuItem = ({ title, link }) => {
   return (
     <div>
-      <a className="inline-block px-7 py-4" href={link}>
+      <a className="inline-block px-7 py-3" href={link}>
         {title}
       </a>
     </div>
@@ -36,7 +36,7 @@ const Menu = ({ menuOpen }) => {
   // Disable body scrolling when the menu is opened
   if (menuOpen && typeof window != "undefined" && window.document) {
     document.body.style.overflow = "hidden";
-  } else if (!menuOpen) {
+  } else if (!menuOpen && typeof window != "undefined" && window.document) {
     document.body.style.overflowY = "auto";
   }
 

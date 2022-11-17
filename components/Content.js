@@ -58,7 +58,9 @@ const Content = () => {
     <div className="flex flex-col items-center justify-center py-12">
       <div className="mb-16">
         <h1 className="text-3xl font-extrabold text-center">Vehicles</h1>
-        <p className="text-center text-sm mt-1">23 vehicles in stock</p>
+        <p className="text-center text-sm mt-1 font-medium">
+          {items.length} vehicles in stock
+        </p>
       </div>
       <div className="flex justify-center flex-wrap xl:max-w-[1200px] gap-6">
         {items.map((item, i) => (
@@ -68,7 +70,7 @@ const Content = () => {
       <p className="mt-12 text-[10px]">
         <span className="text-red-500 font-bold">*</span>{" "}
         <span>
-          Prices may vary from quoted values. Terms & Conditions apply.
+          Prices may vary from quoted amount. Terms & Conditions apply.
         </span>
       </p>
     </div>
