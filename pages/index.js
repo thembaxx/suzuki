@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Header from "../components/Header";
 import Nav from "../components/Nav";
+import Hero from "../components/Hero";
 
 export default function Home() {
   return (
@@ -11,13 +12,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* Header */}
-      <Header />
+      <div className="bg-white sticky top-0 z-50">
+        {/* Header */}
+        <Header />
 
-      {/* Nav */}
-      <Nav />
+        {/* Nav */}
+        <Nav />
+      </div>
 
       {/* Hero */}
+      <Hero />
 
       {/* Content */}
 

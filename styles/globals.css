@@ -2,7 +2,7 @@
 
 @layer base {
     html {
-        @apply text-primary;
+        @apply text-custom-primary;
     }
 }
 
