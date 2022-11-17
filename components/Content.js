@@ -57,7 +57,7 @@ const Content = () => {
     <div className="flex flex-col items-center justify-center py-12">
       <div className="mb-16">
         <h1 className="text-3xl font-extrabold text-center">Vehicles</h1>
-        <p className="text-center">23 vehicles in stock</p>
+        <p className="text-center text-sm mt-1">23 vehicles in stock</p>
       </div>
       <div className="flex justify-center flex-wrap xl:max-w-[1200px] gap-6">
         {items.map((item, i) => (

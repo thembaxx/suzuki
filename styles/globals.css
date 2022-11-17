@@ -8,3 +8,9 @@
 
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    a:hover {
+        @apply cursor-pointer underline;
+    }
+}

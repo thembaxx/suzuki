@@ -26,7 +26,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="bg-primary py-8 text-white bg-custom-primary">
+      <div className="bg-primary px-12 py-8 text-white bg-custom-primary">
         <h1 className="text-2xl font-black text-center uppercase mb-6">
           Welcome to Suzuki Rosebank!
         </h1>

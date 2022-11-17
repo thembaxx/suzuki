@@ -4,7 +4,7 @@ const Footer = () => {
       <h5 className="font-bold text-xs uppercase text-custom-tertiary">
         Get in touch
       </h5>
-      <div className="flex mt-4 text-sm gap-20">
+      <div className="flex flex-wrap mt-4 text-sm gap-20">
         <p>
           55 2nd Ave <br /> Kew <br /> Johannesburg <br /> 2090
         </p>
