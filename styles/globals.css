@@ -10,6 +10,15 @@
 @tailwind utilities;
 
 @layer components {
+    a {
+        @apply underline-offset-4;
+        text-decoration-skip-ink: all;
+    }
+
+    body {
+        position: relative;
+    }
+
     a:hover {
         @apply cursor-pointer underline;
     }

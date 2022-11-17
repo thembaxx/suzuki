@@ -21,9 +21,10 @@ const Item = ({ pictures, range, min_price, min_price_monthly }) => {
             "en-ZA"
           )}`}</span>{" "}
           <span>or</span>{" "}
-          <span className="font-bold">{`R ${Number(min_price_monthly)
-            .toFixed(0)
-            .toLocaleString("en-ZA")}`}</span>
+          <span className="font-bold">{`R ${parseInt(
+            min_price_monthly
+          ).toLocaleString("en-ZA")}`}</span>{" "}
+          <span className="text-red-500 font-bold">*</span>
         </p>
         <a
           href="#"
@@ -64,6 +65,12 @@ const Content = () => {
           <Item key={i} {...item} />
         ))}
       </div>
+      <p className="mt-12 text-[10px]">
+        <span className="text-red-500 font-bold">*</span>{" "}
+        <span>
+          Prices may vary from quoted values. Terms & Conditions apply.
+        </span>
+      </p>
     </div>
   );
 };
