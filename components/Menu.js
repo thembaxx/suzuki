@@ -1,29 +1,13 @@
 import { useState } from "react";
 import { animated, useSpring } from "@react-spring/web";
 
-const items = [
-  {
-    title: "Vehicles",
-    link: "#",
-  },
-  {
-    title: "Parts & Services",
-    link: "#",
-  },
-  {
-    title: "Finance",
-    link: "#",
-  },
-  {
-    title: "Contact us",
-    link: "#",
-  },
-];
+import company from "../data/company.json";
+import menuItems from "../data/menu.json";
 
-const MenuItem = ({ title, link }) => {
+const MenuItem = ({ title, route }) => {
   return (
     <div>
-      <a className="inline-block px-7 py-3" href={link}>
+      <a className="inline-block px-7 py-3" href={route}>
         {title}
       </a>
     </div>
@@ -58,7 +42,7 @@ const Menu = ({ menuOpen }) => {
       style={{ ...animProps, display: open ? "flex" : "none" }}
     >
       <div className="w-full ">
-        {items.map((item, i) => (
+        {menuItems.map((item, i) => (
           <MenuItem key={i} {...item} />
         ))}
       </div>
@@ -67,21 +51,25 @@ const Menu = ({ menuOpen }) => {
         <h5 className="font-bold text-[10px] uppercase text-custom-tertiary">
           Get in touch
         </h5>
-        <div className="flex flex-wrap mt-4 text-sm gap-10">
-          <p>
-            55 2nd Ave <br /> Kew <br /> Johannesburg <br /> 2090
-          </p>
-          <div className="flex flex-col flex-grow gap-1">
-            <a href="tel:011">+27 (0) 11 887-5422</a>
-            <a href="mailto:hello@heycarter.co.za">hello@heycarter.co.za</a>
+        <div className="flex flex-wrap mt-3 text-sm gap-10">
+          <div className="text-sm">
+            <h3 className="font-semibold text-base">
+              {company.address.province}
+            </h3>
+            <p>{company.address.street}</p>
+            <p>{`${company.address.city}, ${company.address.postalCode}`}</p>
+            <div className="py-4">
+              <a href={`mailto:${company.email}`}>{company.email}</a>
+            </div>
           </div>
           <div className="text-[10px] font-medium uppercase">
             <div className="flex gap-2">
-              <a href="#">Twitter</a>
-              <span>/</span>
-              <a href="#">Facebook</a>
-              <span>/</span>
-              <a href="#">LinkedIn</a>
+              {company.social.map(({ name, link }, i, { length }) => (
+                <span key={name}>
+                  <a href={link}>{name}</a>
+                  {i + 1 !== length && <span className="ml-2">/</span>}
+                </span>
+              ))}
             </div>
             <div className="mt-2 flex gap-2">
               <a href="#" style={{ textDecorationSkipInk: "all" }}>

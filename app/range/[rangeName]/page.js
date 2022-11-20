@@ -151,7 +151,7 @@ const Page = async ({ params }) => {
           </div>
           <Sidebar />
         </div>
-        <div className="bg-gray-50 flex items-center md:items-start gap-6 flex-wrap px-8 py-6 xl:max-w-[1200px]">
+        <div className="bg-gray-50 flex items-center justify-center md:justify-start md:items-start gap-6 flex-wrap px-8 py-6 xl:max-w-[1200px]">
           {data?.map((item, i) => (
             <Card key={i} rangeName={rangeName} picture={picture} {...item} />
           ))}

@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Vehicles",
+    "route": "/"
+  },
+  {
+    "title": "Parts & Services",
+    "route": "/"
+  },
+  {
+    "title": "Contact us",
+    "route": "/contact"
+  }
+]

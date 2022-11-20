@@ -9,21 +9,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PhoneIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 
 import Menu from "./Menu";
-
-const menuItems = [
-  {
-    name: "Vehicles",
-    href: "/home",
-  },
-  {
-    name: "Parts & Services",
-    href: "/",
-  },
-  {
-    name: "Contact us",
-    href: "/contact",
-  },
-];
+import menuItems from "../data/menu.json";
 
 const Header = ({ contactNumber, email }) => {
   return (
@@ -43,14 +29,16 @@ const Header = ({ contactNumber, email }) => {
 const Nav = ({ branch, menuOpen, toggleMenu }) => {
   return (
     <div className="px-4 py-5 pr-6 flex justify-between items-center">
-      <div className="flex justify-left">
-        <Image className="h-6" src={Logo} alt="" />
-        <p className="text-xs font-bold mt-[6px] -ml-1">{branch}</p>
-      </div>
+      <Link href="/">
+        <div className="flex justify-left">
+          <Image className="h-6" src={Logo} alt="" />
+          <p className="text-xs font-bold mt-[6px] -ml-1">{branch}</p>
+        </div>
+      </Link>
       <div className="hidden md:flex uppercase font-semibold text-xs gap-4 tracking-wide">
-        {menuItems.map(({ name, href }) => (
-          <Link key={name} href={href}>
-            {name}
+        {menuItems.map(({ title, route }) => (
+          <Link key={title} href={route}>
+            {title}
           </Link>
         ))}
       </div>
