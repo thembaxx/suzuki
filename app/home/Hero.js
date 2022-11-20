@@ -9,7 +9,7 @@ const Hero = () => {
           <Image src={HeroImage} alt="" />
         </div>
         <div className="absolute bottom-0 md:top-0 right-0 m-2 hidden md:block md:m-14 text-white">
-          <h2 className="uppercase font-black mb-3 text-xl md:text-3xl shadow-sm">
+          <h2 className="uppercase font-black mb-3 text-xl md:text-3xl">
             Suzuki Jimny
           </h2>
           <p className="text-l">
@@ -44,11 +44,11 @@ const Hero = () => {
         </div>
       </div>
       <div className="bg-primary px-12 py-8 text-white bg-custom-primary">
-        <h1 className="text-lg md:text-2xl font-black text-center uppercase mb-4">
+        <h1 className="text-sm md:text-2xl font-black text-center uppercase mb-3">
           Welcome to Suzuki Rosebank!
         </h1>
 
-        <div className="flex justify-center">
+        <div className="flex text-sm justify-center">
           <p className="max-w-[750px] text-center font-medium">
             <span>
               Welcome to Suzuki Rosebank. Expect to be delighted by our new

@@ -40,9 +40,9 @@ const Item = ({ pictures, range, min_price, min_price_monthly }) => {
 const Content = ({ items }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12">
-      <div className="mb-16">
+      <div className="mb-12">
         <h1 className="text-3xl font-extrabold text-center">Vehicles</h1>
-        <p className="text-center text-sm mt-1 font-medium">
+        <p className="text-center text-sm font-medium">
           {items?.length} vehicles in stock
         </p>
       </div>

@@ -136,7 +136,7 @@ const Form = () => {
         />
       </Wrapper>
       <button
-        className="text-xs bg-custom-primary text-white font-semibold rounded-lg py-3 hover:brightness-90 active:brightness-95 mt-6"
+        className="text-xs bg-custom-primary text-white font-medium rounded-lg py-3 hover:brightness-90 active:brightness-95 mt-6"
         type="button"
       >
         Send message

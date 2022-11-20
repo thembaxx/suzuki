@@ -32,12 +32,13 @@ const Card = ({
 }) => {
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm w-[300px]">
-      <div className=" bg-gray-200 relative w-[300px] h-[140px]">
+      <div className=" bg-gray-200 relative w-[300px] h-[150px]">
         <Image src={picture} alt="" fill style={{ objectFit: "cover" }} />
       </div>
       <div className="px-4 py-4">
         <h3 className="text-xs">
-          <span>{brand ?? "Suzuki"}</span> <span>{rangeName}</span>
+          <span>{brand ?? "Suzuki"}</span>{" "}
+          <span>{rangeName.replace("%20", " ")}</span>
         </h3>
         <p className="font-medium text-sm">
           <span>{model}</span>
@@ -71,8 +72,8 @@ const Card = ({
 const Metric = ({ value, unit, label }) => {
   return (
     <div>
-      <p>
-        <span className="text-2xl">{value}</span>
+      <p className="inline-block">
+        <span className="text-2xl">{value}</span>{" "}
         <span className="text-sm">{unit}</span>
       </p>
       <p className="text-[10px]">{label}</p>
@@ -91,7 +92,7 @@ const Property = ({ label, value }) => {
 
 const Sidebar = () => {
   return (
-    <div className="w-[320px]">
+    <div className="w-[325px]">
       <h4 className="text-[11px] uppercase font-semibold">Perfomance</h4>
       <div className="flex items-center py-4 gap-4 border-b">
         <Metric value={10.6} unit="sec" label="0-100 km/h" />
@@ -146,7 +147,7 @@ const Page = async ({ params }) => {
           <div className="flex flex-col justify-center py-3 mb-6">
             <h3 className="font-semibold text-lg">Available Models</h3>
             <p className="text-sm font-medium">
-              Suzuki {capitalizeStr(rangeName)}
+              Suzuki {capitalizeStr(rangeName.replace("%20", " "))}
             </p>
           </div>
           <Sidebar />

@@ -16,7 +16,7 @@ const Details = () => {
 
 const page = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-center gap-16 px-6 py-16">
+    <div className="flex flex-col md:flex-row justify-center gap-16 px-6 pb-16 pt-6">
       <div className="flex flex-col md:items-center">
         <div className="md:max-w-[900px]">
           <div className="mb-12 w-full">
