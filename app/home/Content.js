@@ -4,7 +4,7 @@ import Image from "next/image";
 const Item = ({ pictures, range, min_price, min_price_monthly }) => {
   return (
     <div className=" border-gray-200 border rounded-lg overflow-hidden">
-      <div className=" bg-gray-200 relative w-[340px] h-[180px]">
+      <div className=" bg-gray-200 relative w-[340px] h-[170px]">
         <Image
           src={pictures[0]?.pictureWebPURL ?? pictures[0]?.pictureNormalURL}
           alt=""
