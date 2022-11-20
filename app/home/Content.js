@@ -19,7 +19,7 @@ const Item = ({ pictures, range, min_price, min_price_monthly }) => {
           <span className="font-bold">{`R ${parseInt(
             min_price_monthly
           ).toLocaleString("en-ZA")}`}</span>{" "}
-          <span>or</span>{" "}
+          <span>pm</span> <span>or</span>{" "}
           <span className="font-bold">{`R ${min_price.toLocaleString(
             "en-ZA"
           )}`}</span>{" "}
