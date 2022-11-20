@@ -1,8 +1,9 @@
 import axios from "../axios";
 
-const getCars = async () => {
+const getCar = async (modelID) => {
   try {
-    const resp = await axios.get(`BrandRange/GetRanges?Brand=Suzuki`);
+    const resp = await axios.get(`Car/Get?ModelID=${modelID}`);
+
     return resp.data;
   } catch (error) {
     console.log(error);
@@ -10,4 +11,4 @@ const getCars = async () => {
   }
 };
 
-export default getCars;
+export default getCar;

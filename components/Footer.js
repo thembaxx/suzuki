@@ -1,24 +1,31 @@
-const Footer = () => {
+const Footer = ({ address, contactNumber, email, social }) => {
   return (
     <div className="bg-[#F7F7F7] text-custom-secondary py-12 px-4 md:px-16 rounded-t-2xl">
-      <h5 className="font-bold text-xs uppercase text-custom-tertiary">
+      <h5 className="font-bold text-[10px] uppercase text-custom-tertiary">
         Get in touch
       </h5>
       <div className="flex flex-wrap mt-4 text-sm gap-20">
         <p>
-          55 2nd Ave <br /> Kew <br /> Johannesburg <br /> 2090
+          <span>{address.street}</span>
+          <br />
+          <span>{address.city}</span>
+          <br />
+          <span>{address.province}</span>
+          <br />
+          <span>{address.postalCode}</span>
         </p>
         <div className="flex flex-col flex-grow gap-1">
-          <a href="tel:011">+27 (0) 11 887-5422</a>
-          <a href="mailto:hello@heycarter.co.za">hello@heycarter.co.za</a>
+          <a href={`tel:${contactNumber}`}>{contactNumber}</a>
+          <a href={`mailto:${email}`}>{email}</a>
         </div>
         <div className="text-[10px] font-medium uppercase">
           <div className="flex gap-2">
-            <a href="#">Twitter</a>
-            <span>/</span>
-            <a href="#">Facebook</a>
-            <span>/</span>
-            <a href="#">LinkedIn</a>
+            {social.map(({ name, link }, i, { length }) => (
+              <span key={name}>
+                <a href={link}>{name}</a>
+                {i + 1 !== length && <span className="ml-2">/</span>}
+              </span>
+            ))}
           </div>
           <div className="mt-2 flex gap-2">
             <a href="#" style={{ textDecorationSkipInk: "all" }}>

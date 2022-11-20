@@ -1,0 +1,28 @@
+{
+  "name": "Suzuki Rosebank",
+  "contactNumber": "+22 010 045 2660",
+  "email": "hello@heycarter.co.za",
+  "branch": "Rosebank",
+  "address": {
+    "fullAddress": "158 Jan Smuts Ave, Rosebank, Johannesburg, 2090",
+    "street": "158 Jan Smuts Ave",
+    "city": "Rosebank",
+    "province": "Johannesburg",
+    "postalCode": "2090"
+  },
+  "registrationNo": "51498",
+  "social": [
+    {
+      "name": "facebook",
+      "link": "http://www.facebook.com"
+    },
+    {
+      "name": "twitter",
+      "link": "http://www.twitter.com"
+    },
+    {
+      "name": "linkedin",
+      "link": "http://www.linkedin.com"
+    }
+  ]
+}

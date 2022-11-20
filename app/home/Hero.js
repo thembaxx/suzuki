@@ -1,5 +1,5 @@
 import Image from "next/image";
-import HeroImage from "../public/hero.png";
+import HeroImage from "../../public/hero.png";
 
 const Hero = () => {
   return (
@@ -51,7 +51,7 @@ const Hero = () => {
         <div className="flex justify-center">
           <p className="max-w-[750px] text-center font-medium">
             <span>
-              Welcome to Suzuki Bramley. Expect to be delighted by our new
+              Welcome to Suzuki Rosebank. Expect to be delighted by our new
               Suzuki range and quality vehicles.
             </span>{" "}
             <span className="hidden md:inline">
