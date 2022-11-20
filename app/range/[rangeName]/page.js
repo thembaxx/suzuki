@@ -90,7 +90,7 @@ const Property = ({ label, value }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ count }) => {
   return (
     <div className="w-[325px]">
       <h4 className="text-[11px] uppercase font-semibold">Perfomance</h4>
@@ -145,7 +145,9 @@ const Page = async ({ params }) => {
       <div className="flex flex-col md:flex-row min-h-[300px] relative">
         <div className="bg-white px-6 md:px-4 py-4 md:sticky h-[100%] top-24">
           <div className="flex flex-col justify-center py-3 mb-6">
-            <h3 className="font-semibold text-lg">Available Models</h3>
+            <h3 className="font-semibold text-lg">
+              Available Models {`(${data?.length ?? 0})`}
+            </h3>
             <p className="text-sm font-medium">
               Suzuki {capitalizeStr(rangeName.replace("%20", " "))}
             </p>
