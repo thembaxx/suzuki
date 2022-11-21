@@ -267,7 +267,7 @@ const Page = () => {
                   <ul className="list-disc pl-12 flex flex-col gap-2">
                     <li>Use of, or inability to use, our sites.</li>
                     <li>
-                      use of or reliance on any content displayed on our sites.
+                      Use of, or reliance on any content displayed on our sites.
                     </li>
                   </ul>
                 </li>
