@@ -24,7 +24,9 @@ const Footer = ({ address, contactNumber, email, social }) => {
           <div className="flex gap-2">
             {social.map(({ name, link }, i, { length }) => (
               <span key={name}>
-                <a href={link}>{name}</a>
+                <a href={link} target="_blank" rel="noreferrer">
+                  {name}
+                </a>
                 {i + 1 !== length && <span className="ml-2">/</span>}
               </span>
             ))}
@@ -34,7 +36,7 @@ const Footer = ({ address, contactNumber, email, social }) => {
               Privacy Policy
             </Link>
             <span>/</span>
-            <a href="#">Terms & Condtions</a>
+            <Link href="/terms">Terms & Condtions</Link>
           </div>
         </div>
       </div>

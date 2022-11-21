@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { animated, useSpring } from "@react-spring/web";
+import Link from "next/link";
 
 import company from "../data/company.json";
 import menuItems from "../data/menu.json";
@@ -66,17 +67,19 @@ const Menu = ({ menuOpen }) => {
             <div className="flex gap-2">
               {company.social.map(({ name, link }, i, { length }) => (
                 <span key={name}>
-                  <a href={link}>{name}</a>
+                  <a href={link} target="_blank" rel="noreferrer">
+                    {name}
+                  </a>
                   {i + 1 !== length && <span className="ml-2">/</span>}
                 </span>
               ))}
             </div>
             <div className="mt-2 flex gap-2">
-              <a href="/privacy" style={{ textDecorationSkipInk: "all" }}>
+              <Link href="/privacy" style={{ textDecorationSkipInk: "all" }}>
                 Privacy Policy
-              </a>
+              </Link>
               <span>/</span>
-              <a href="#">Terms & Condtions</a>
+              <Link href="/terms">Terms & Condtions</Link>
             </div>
           </div>
         </div>

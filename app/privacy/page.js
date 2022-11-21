@@ -1,8 +1,8 @@
-import ScrollTopButton from "./ScrollTopButton";
+import ScrollTopButton from "../../components/ScrollTopButton";
 
 const aTagClassess = "font-medium hover:underline block py-1";
 const sectionTitleClasses = "text-xl border-b pb-4 mb-2";
-const sectionClasses = "flex flex-col gap-3 text-sm mb-8";
+const sectionClasses = "flex flex-col gap-3 text-sm pb-8";
 
 const Section = ({ id, children }) => {
   return (
