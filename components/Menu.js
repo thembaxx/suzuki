@@ -72,7 +72,7 @@ const Menu = ({ menuOpen }) => {
               ))}
             </div>
             <div className="mt-2 flex gap-2">
-              <a href="#" style={{ textDecorationSkipInk: "all" }}>
+              <a href="/privacy" style={{ textDecorationSkipInk: "all" }}>
                 Privacy Policy
               </a>
               <span>/</span>
