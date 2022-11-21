@@ -14,7 +14,17 @@ const fetchModels = async (rangeName) => {
   const models = await requests.getModels(rangeName);
   const data = { models };
   if (models && models.length > 0) {
-    const car = await requests.getCar(models[0]?.model_ID);
+    // Sort by price ascending
+    models.sort((a, b) => {
+      if (a.price < b.price) {
+        return -1;
+      }
+      if (a.price > b.price) {
+        return 1;
+      }
+    });
+
+    const car = await requests.getCar(models[models.length - 1]?.model_ID);
     data.car = car;
   }
   return data;
@@ -90,40 +100,117 @@ const Property = ({ label, value }) => {
   );
 };
 
-const Sidebar = ({ count }) => {
+const Sidebar = ({ data, fuel, transmission }) => {
+  const specifications = data?.specifications;
+
+  //#region performance
+  const performance = specifications?.performance;
+  const zeroToHundred =
+    performance?.find(({ key }) => key?.toLowerCase().includes("acceleration"))
+      ?.value ?? 0;
+
+  const maximumPower =
+    performance?.find(({ key }) => key?.toLowerCase().includes("power maximum"))
+      ?.value ?? 0;
+
+  const maximumTorque =
+    performance?.find(({ key }) =>
+      key?.toLowerCase().includes("torque maximum")
+    )?.value ?? 0;
+  //#endregion
+
+  //#region Fuel Economy
+  const fuelEconomy = specifications?.fuelEconomy;
+  const fuelConsumption =
+    fuelEconomy?.find(({ key }) =>
+      key?.toLowerCase().includes("fuel consumption")
+    )?.value ?? "Unknown";
+
+  const emissions =
+    fuelEconomy?.find(({ key }) => key?.toLowerCase().includes("emissions"))
+      ?.value ?? "Unknown";
+  //#endregion
+
+  //#region dimensions
+  const dimensions = specifications?.dimensions;
+  const doors =
+    dimensions?.find(({ key }) => key?.toLowerCase().includes("doors"))
+      ?.value ?? "Unknown";
+
+  const seats =
+    dimensions?.find(({ key }) => key?.toLowerCase().includes("seats"))
+      ?.value ?? "Unknown";
+
+  const fuelTankCapacity =
+    dimensions?.find(({ key }) =>
+      key?.toLowerCase().includes("fuel tank capacity")
+    )?.value ?? "Unknown";
+  //#endregion
+
+  //#region
+  const maintenance = specifications?.maintenance;
+  const warrantyYears = maintenance?.find(({ key }) =>
+    key?.toLowerCase().includes("warranty time")
+  )?.value;
+
+  const warrantyDistance = maintenance?.find(({ key }) =>
+    key?.toLowerCase().includes("warranty distance")
+  )?.value;
+  //#endregion
+
   return (
     <div className="w-[325px]">
       <h4 className="text-[11px] uppercase font-semibold">Perfomance</h4>
       <div className="flex items-center py-4 gap-4 border-b">
-        <Metric value={10.6} unit="sec" label="0-100 km/h" />
+        <Metric
+          value={parseFloat(zeroToHundred)}
+          unit="sec"
+          label="0-100 km/h"
+        />
         <div className="bg-gray-300 h-6 w-[1px]"></div>
-        <Metric value={50} unit="kW" label="Maximum power" />
+        <Metric
+          value={parseFloat(maximumPower)}
+          unit="kW"
+          label="Maximum power"
+        />
         <div className="bg-gray-300 h-6 w-[1px]"></div>
-        <Metric value={6.2} unit="l/100 km" label="Fuel consumption" />
+        <Metric
+          value={parseFloat(maximumTorque)}
+          unit="Nm"
+          label="Maximum torque"
+        />
       </div>
       <div>
         <h4 className="text-[11px] uppercase font-semibold mt-6">
           Specifications
         </h4>
         <div className="border-b py-4">
-          <Property label="Fuel type" value="Petrol or Diesel" />
-          <Property label="Fuel capacity" value="48 litre" />
-          <Property label="Transmission" value="Petrol or Automatic" />
-          <Property label="Doors" value="5" />
-          <Property label="Seats (quantity)" value="5" />
-          <Property label="CO2 emissions: average" value="147 g/km" />
+          <Property label="Fuel type" value={fuel ?? "Unknown"} />
+          <Property label="Fuel capacity" value={fuelTankCapacity} />
+          <Property label="Transmission" value={transmission} />
+          <Property label="Doors" value={doors} />
+          <Property label="Seats (quantity)" value={seats} />
+          <Property label="Fuel consumption(avg)" value={fuelConsumption} />
+          <Property label="CO2 emissions(avg)" value={emissions} />
         </div>
-        <div>
-          <div className="flex items-center">
-            <div className="flex items-center justify-center h-4 w-4 mr-2">
-              <WrenchScrewdriverIcon />
+        {warrantyDistance && warrantyYears && (
+          <div>
+            <div className="flex items-center">
+              <div className="flex items-center justify-center h-4 w-4 mr-2">
+                <WrenchScrewdriverIcon />
+              </div>
+              <p className="text-[13px] py-4">
+                <span>{`${warrantyYears}${
+                  warrantyDistance &&
+                  `/${
+                    parseFloat(warrantyDistance).toLocaleString("en-ZA") + " km"
+                  } stardard warranty`
+                }`}</span>{" "}
+                <span className="text-red-500 font-bold">*</span>
+              </p>
             </div>
-            <p className="text-[13px] py-4">
-              <span>{`3 year(s)/100 000 km stardard warranty`}</span>{" "}
-              <span className="text-red-500 font-bold">*</span>
-            </p>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -131,6 +218,7 @@ const Sidebar = ({ count }) => {
 
 const Page = async ({ params }) => {
   const { rangeName } = params;
+
   const resp = await fetchModels(rangeName);
   const data = resp?.models;
   const car = resp?.car;
@@ -140,10 +228,22 @@ const Page = async ({ params }) => {
   const picture =
     model?.pictures[0]?.pictureWebPURL ?? model?.pictures[0]?.pictureNormalURL;
 
+  let transmissionSupport = data?.map(({ transmission }) =>
+    capitalizeStr(transmission)
+  );
+  transmissionSupport = new Set(transmissionSupport);
+  transmissionSupport = Array.from(transmissionSupport);
+  transmissionSupport = transmissionSupport.join(", ");
+
+  let fuelSupport = data?.map(({ fuel }) => capitalizeStr(fuel));
+  fuelSupport = new Set(fuelSupport);
+  fuelSupport = Array.from(fuelSupport);
+  fuelSupport = fuelSupport.join(", ");
+
   return (
     <div className="w-full">
       <div className="flex flex-col md:flex-row min-h-[300px] relative">
-        <div className="bg-white px-6 md:px-4 py-4 md:sticky h-[100%] top-24">
+        <div className="bg-white px-6 md:px-6 py-4 md:sticky h-[100%] top-24">
           <div className="flex flex-col justify-center py-3 mb-6">
             <h3 className="font-semibold text-lg">
               Available Models {`(${data?.length ?? 0})`}
@@ -152,9 +252,13 @@ const Page = async ({ params }) => {
               Suzuki {capitalizeStr(rangeName.replace("%20", " "))}
             </p>
           </div>
-          <Sidebar />
+          <Sidebar
+            data={model}
+            fuel={fuelSupport}
+            transmission={transmissionSupport}
+          />
         </div>
-        <div className="bg-gray-50 flex items-center justify-center md:justify-start md:items-start gap-6 flex-wrap px-8 py-6 xl:max-w-[1200px]">
+        <div className="bg-gray-50 flex-grow flex items-center justify-center md:justify-start md:items-start gap-6 flex-wrap px-8 py-6 xl:max-w-[1200px]">
           {data?.map((item, i) => (
             <Card key={i} rangeName={rangeName} picture={picture} {...item} />
           ))}
