@@ -11,10 +11,10 @@ import {
 import { capitalizeStr } from "../../../utitlities/capitalizeStr";
 
 const fetchModels = async (rangeName) => {
+  let data = {};
   const models = await requests.getModels(rangeName);
-  const data = { models };
+  // Sort by price ascending
   if (models && models.length > 0) {
-    // Sort by price ascending
     models.sort((a, b) => {
       if (a.price < b.price) {
         return -1;
@@ -24,7 +24,10 @@ const fetchModels = async (rangeName) => {
       }
     });
 
+    data = { models };
+
     const car = await requests.getCar(models[models.length - 1]?.model_ID);
+
     data.car = car;
   }
   return data;
@@ -203,7 +206,8 @@ const Sidebar = ({ data, fuel, transmission }) => {
                 <span>{`${warrantyYears}${
                   warrantyDistance &&
                   `/${
-                    parseFloat(warrantyDistance).toLocaleString("en-ZA") + " km"
+                    parseFloat(warrantyDistance)?.toLocaleString("en-ZA") +
+                    " km"
                   } stardard warranty`
                 }`}</span>{" "}
                 <span className="text-red-500 font-bold">*</span>

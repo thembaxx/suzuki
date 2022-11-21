@@ -1,5 +1,5 @@
 import { config } from "../../data/config";
-const AUTH_CODE = "Mjo4OTJDOTQ3NC1BMzE2LTQ5OEEtOEFBQy04RTZEMDY1RThDRUM";
+const AUTH_CODE = "Mjo4OTJDOTQ3NC1BMzE2LTQ5OEEtOEFBQy04RTZEMDY1RThDRUM=";
 
 const APIConfig = () => {
   const prodConfig = {
