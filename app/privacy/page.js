@@ -1,6 +1,17 @@
+import ScrollTopButton from "./ScrollTopButton";
+
 const aTagClassess = "font-medium hover:underline block py-1";
 const sectionTitleClasses = "text-xl border-b pb-4 mb-2";
 const sectionClasses = "flex flex-col gap-3 text-sm mb-8";
+
+const Section = ({ id, children }) => {
+  return (
+    <div id={id} className={sectionClasses}>
+      <>{children}</>
+      <ScrollTopButton />
+    </div>
+  );
+};
 
 const Page = () => {
   return (
@@ -87,7 +98,7 @@ const Page = () => {
         </ul>
         <div className="flex-grow flex justify-center pt-12 md:pt-0 px-6">
           <div className="max-w-[600px]">
-            <section id="introduction" className={sectionClasses}>
+            <Section id="introduction">
               <p>
                 Please take the time to review this privacy statement which
                 explains the information that HeyCarter (Pty) Ltd or its
@@ -113,8 +124,9 @@ const Page = () => {
                 users’ information, and use its users’ information only for the
                 purpose permitted or required.
               </p>
-            </section>
-            <section id="data-collection" className={sectionClasses}>
+              {/*   */}
+            </Section>
+            <Section id="data-collection">
               <h2 className={sectionTitleClasses}>
                 What personal information do we collect about you?
               </h2>
@@ -197,8 +209,8 @@ const Page = () => {
                   about you.
                 </li>
               </ul>
-            </section>
-            <section id="personal-information" className={sectionClasses}>
+            </Section>
+            <Section id="personal-information">
               <h2 className={sectionTitleClasses}>
                 What do we use this personal information for?
               </h2>
@@ -248,8 +260,8 @@ const Page = () => {
                 </li>
                 <li>To comply with our legal and regulatory obligations.</li>
               </ul>
-            </section>
-            <section id="information-sharing" className={sectionClasses}>
+            </Section>
+            <Section id="information-sharing">
               <h2 className={sectionTitleClasses}>
                 Who do we share this personal information with?
               </h2>
@@ -290,8 +302,8 @@ const Page = () => {
                   analysis of popular cars in a given year).
                 </li>
               </ul>
-            </section>
-            <section id="information-rights" className={sectionClasses}>
+            </Section>
+            <Section id="information-rights">
               <h2 className={sectionTitleClasses}>
                 What Choices Do I Have Regarding My Information?
               </h2>
@@ -337,8 +349,8 @@ const Page = () => {
                 opting out, but that advertising may not be tailored to you or
                 your interests.
               </p>
-            </section>
-            <section id="data-protection-law" className={sectionClasses}>
+            </Section>
+            <Section id="data-protection-law">
               <h2 className={sectionTitleClasses}>
                 Our basis for processing under South African data protection law
               </h2>
@@ -377,8 +389,8 @@ const Page = () => {
                   to the dealers we work with and collect any commission due.
                 </li>
               </ul>
-            </section>
-            <section id="marketing-and-advertising" className={sectionClasses}>
+            </Section>
+            <Section id="marketing-and-advertising">
               <h2 className={sectionTitleClasses}>Marketing & Advertising</h2>
               <p>
                 We love to communicate with our users and so, depending on your
@@ -406,8 +418,8 @@ const Page = () => {
                 to send you offers from dealers in response to a request you
                 make on the Websites or app.
               </p>
-            </section>
-            <section id="storage-and-deletion" className={sectionClasses}>
+            </Section>
+            <Section id="storage-and-deletion">
               <h2 className={sectionTitleClasses}>Storage and Deletion</h2>
               <p>
                 Our Website and App is hosted by external service providers
@@ -423,24 +435,24 @@ const Page = () => {
                 will keep a record of your email address to ensure we do not
                 send you marketing emails in future.
               </p>
-            </section>
-            <section id="age-restriction" className={sectionClasses}>
+            </Section>
+            <Section id="age-restriction">
               <h2 className={sectionTitleClasses}>Users under 18</h2>
               <p>
                 Our Website and app is not intended for, and should not be used
                 by, anyone under the age of 18. We do not knowingly collect
                 personal information from individuals under 18.
               </p>
-            </section>
-            <section id="cookie-policy" className={sectionClasses}>
+            </Section>
+            <Section id="cookie-policy">
               <h2 className={sectionTitleClasses}>Cookie Policy</h2>
               <p>
                 Our Websites uses cookies and similar technologies to provide
                 certain functionality to the Websites, to understand and measure
                 its performance, and to deliver targeted advertising.
               </p>
-            </section>
-            <section id="your-rights" className={sectionClasses}>
+            </Section>
+            <Section id="your-rights">
               <h2 className={sectionTitleClasses}>Your rights</h2>
               <p>
                 You have certain rights in respect of your personal information,
@@ -464,11 +476,8 @@ const Page = () => {
                 below. You are also entitled to contact the South African
                 Information Regulator.
               </p>
-            </section>
-            <section
-              id="car-dealerships-and-job-applicants"
-              className={sectionClasses}
-            >
+            </Section>
+            <Section id="car-dealerships-and-job-applicants">
               <h2 className={sectionTitleClasses}>
                 Car Dealerships and Job Applicants
               </h2>
@@ -510,8 +519,8 @@ const Page = () => {
                 from third parties, for example recruiters, referees, or from
                 publicly available sources (e.g. LinkedIn).
               </p>
-            </section>
-            <section id="paia" className={sectionClasses}>
+            </Section>
+            <Section id="paia">
               <h2 className={sectionTitleClasses}>
                 PAIA (Promotion of Access to Information Act)
               </h2>
@@ -525,8 +534,8 @@ const Page = () => {
                   here
                 </a>
               </p>
-            </section>
-            <section id="contact-us" className={sectionClasses}>
+            </Section>
+            <Section id="contact-us">
               <h2 className={sectionTitleClasses}>Contact us</h2>
               <p>
                 Carter operates in accordance with all provisions of the PAI
@@ -538,10 +547,11 @@ const Page = () => {
                   hello@heycarter.co.za
                 </a>
               </p>
-            </section>
+            </Section>
           </div>
         </div>
       </div>
+      <div className="mb-4"></div>
     </div>
   );
 };

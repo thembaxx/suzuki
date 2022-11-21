@@ -12,7 +12,7 @@ const RootLayout = ({ children }) => {
       <head>
         <title>Suzuki Rosebank</title>
       </head>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen scroll-smooth">
         <header className="bg-white sticky top-0 z-50">
           <NavBar {...company} />
         </header>
