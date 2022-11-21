@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import Logo from "../public/suzuki logo.svg";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { PhoneIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
+import { EnvelopeIcon } from "@heroicons/react/24/solid";
 
 import Menu from "./Menu";
 import menuItems from "../data/menu.json";
@@ -14,10 +14,10 @@ import menuItems from "../data/menu.json";
 const Header = ({ contactNumber, email }) => {
   return (
     <div className="flex py-2 px-6 justify-end text-xs text-teal-700 font-medium">
-      <a className="flex align-middle mr-5 " href="tel:0123456789">
+      {/* <a className="flex align-middle mr-5 " href="tel:0123456789">
         <PhoneIcon className="h-4 mr-2" />
         <p>{contactNumber}</p>
-      </a>
+      </a> */}
       <a className="flex align-middle" href="mailto:hello@heycarter.co.za">
         <EnvelopeIcon className="h-4 mr-2" />
         <p>{email}</p>

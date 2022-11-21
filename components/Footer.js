@@ -15,7 +15,7 @@ const Footer = ({ address, contactNumber, email, social }) => {
           <span>{address.postalCode}</span>
         </p>
         <div className="flex flex-col flex-grow gap-1">
-          <a href={`tel:${contactNumber}`}>{contactNumber}</a>
+          {/* <a href={`tel:${contactNumber}`}>{contactNumber}</a> */}
           <a href={`mailto:${email}`}>{email}</a>
         </div>
         <div className="text-[10px] font-medium uppercase">
