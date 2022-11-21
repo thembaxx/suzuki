@@ -49,7 +49,9 @@ const TextField = ({
       >
         <input
           id={textFieldId}
-          className="text-sm py-2 px-2 outline-none flex-grow disabled:text-gray-400"
+          className={`text-sm py-2 px-2 outline-none flex-grow disabled:text-gray-400 ${
+            error && "pr-8"
+          }`}
           value={value}
           placeholder={placeholder}
           disabled={isDisabled}
@@ -69,7 +71,7 @@ const TextField = ({
           onChange={onChange}
         />
         {error && (
-          <div className="flex items-center justify-center h-8 w-8">
+          <div className="absolute right-0 flex items-center justify-center h-8 w-8">
             <ExclamationIcon />
           </div>
         )}

@@ -4,6 +4,7 @@ import TextField from "../../components/TextField";
 import TextArea from "../../components/TextArea";
 
 // validation
+import validateNoSpecialChars from "../../utitlities/validateNoSpecialChars";
 import validateEmail from "../../utitlities/validateEmail";
 import validateZAPhoneNumber from "../../utitlities/validateZAPhoneNumber";
 
@@ -53,7 +54,19 @@ const Form = () => {
         },
       };
     } else {
-      if (formDataCopy.firstName.error) {
+      const validationError = validateNoSpecialChars(
+        formDataCopy.firstName.value
+      );
+
+      if (validationError) {
+        formDataCopy = {
+          ...formDataCopy,
+          firstName: {
+            ...formDataCopy.firstName,
+            error: validationError,
+          },
+        };
+      } else if (formDataCopy.firstName.error) {
         formDataCopy = {
           ...formDataCopy,
           firstName: {
@@ -73,14 +86,28 @@ const Form = () => {
           error: "Required field!",
         },
       };
-    } else if (formDataCopy.lastName.error) {
-      formDataCopy = {
-        ...formDataCopy,
-        lastName: {
-          ...formDataCopy.lastName,
-          error: null,
-        },
-      };
+    } else {
+      const validationError = validateNoSpecialChars(
+        formDataCopy.lastName.value
+      );
+
+      if (validationError) {
+        formDataCopy = {
+          ...formDataCopy,
+          lastName: {
+            ...formDataCopy.lastName,
+            error: validationError,
+          },
+        };
+      } else if (formDataCopy.lastName.error) {
+        formDataCopy = {
+          ...formDataCopy,
+          lastName: {
+            ...formDataCopy.lastName,
+            error: null,
+          },
+        };
+      }
     }
 
     // Email validation
