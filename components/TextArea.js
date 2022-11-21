@@ -4,7 +4,7 @@ const TextArea = ({
   placeholder,
   isDisabled,
   isRequired,
-  minHeight = 200,
+  error,
   onChange,
 }) => {
   return (
@@ -20,11 +20,14 @@ const TextArea = ({
       <textarea
         value={value}
         placeholder={placeholder}
-        className="min-h-[128px] text-sm py-2 px-2 focus:outline-2 w-full disabled:text-gray-400 disabled:bg-gray-100 resize-none border rounded"
+        className={`min-h-[128px] text-sm py-2 px-2 focus:outline-2 outline-custom-tertiary w-full disabled:text-gray-400 disabled:bg-gray-100 resize-none border rounded`}
         disabled={isDisabled}
-        minHeight={minHeight}
         onChange={onChange}
       />
+
+      <div className="flex items-center h-8">
+        <p className="font-medium text-red-600 text-[11px]">{error}</p>
+      </div>
     </div>
   );
 };

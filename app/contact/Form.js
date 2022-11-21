@@ -3,39 +3,176 @@ import { useState } from "react";
 import TextField from "../../components/TextField";
 import TextArea from "../../components/TextArea";
 
+// validation
+import validateEmail from "../../utitlities/validateEmail";
+import validateZAPhoneNumber from "../../utitlities/validateZAPhoneNumber";
+
+const defaultFormData = {
+  firstName: {
+    value: "",
+    error: null,
+  },
+  lastName: {
+    value: "",
+    error: null,
+  },
+  email: {
+    value: "",
+    error: null,
+  },
+  phoneNumber: {
+    value: "",
+    error: null,
+  },
+  message: {
+    value: "",
+    error: null,
+  },
+};
+
 const Wrapper = ({ children }) => {
   return <div className={`flex-grow`}>{children}</div>;
 };
 
 const Form = () => {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: {
-      value: "",
-      error: "",
-    },
-    lastName: {
-      value: "",
-      error: "",
-    },
-    email: {
-      value: "",
-      error: "",
-    },
-    phoneNumber: {
-      value: "",
-      error: "",
-    },
-    message: {
-      value: "",
-      error: "",
-    },
-  });
+  const [formData, setFormData] = useState(defaultFormData);
 
   const handleSubmit = async (e) => {
     setLoading(true);
 
-    // validate the form
+    let formDataCopy = { ...formData };
+
+    // First name validation
+    if (!formDataCopy.firstName.value) {
+      formDataCopy = {
+        ...formDataCopy,
+        firstName: {
+          ...formDataCopy.firstName,
+          error: "Required field!",
+        },
+      };
+    } else {
+      if (formDataCopy.firstName.error) {
+        formDataCopy = {
+          ...formDataCopy,
+          firstName: {
+            ...formDataCopy.firstName,
+            error: null,
+          },
+        };
+      }
+    }
+
+    // Last name validation
+    if (!formDataCopy.lastName.value) {
+      formDataCopy = {
+        ...formDataCopy,
+        lastName: {
+          ...formDataCopy.lastName,
+          error: "Required field!",
+        },
+      };
+    } else if (formDataCopy.lastName.error) {
+      formDataCopy = {
+        ...formDataCopy,
+        lastName: {
+          ...formDataCopy.lastName,
+          error: null,
+        },
+      };
+    }
+
+    // Email validation
+    if (!formDataCopy.email.value) {
+      formDataCopy = {
+        ...formDataCopy,
+        email: {
+          ...formDataCopy.email,
+          error: "Required field!",
+        },
+      };
+    } else {
+      const emailValidationError = validateEmail(formDataCopy.email.value);
+
+      if (emailValidationError) {
+        formDataCopy = {
+          ...formDataCopy,
+          email: {
+            ...formDataCopy.email,
+            error: emailValidationError,
+          },
+        };
+      } else if (formDataCopy.email.error) {
+        formDataCopy = {
+          ...formDataCopy,
+          email: {
+            ...formDataCopy.email,
+            error: null,
+          },
+        };
+      }
+    }
+
+    // Phone number validation
+    if (!formDataCopy.phoneNumber.value) {
+      formDataCopy = {
+        ...formDataCopy,
+        phoneNumber: {
+          ...formDataCopy.phoneNumber,
+          error: "Required field!",
+        },
+      };
+    } else {
+      const phoneValidationError = validateZAPhoneNumber(
+        formDataCopy.phoneNumber.value
+      );
+
+      if (phoneValidationError) {
+        formDataCopy = {
+          ...formDataCopy,
+          phoneNumber: {
+            ...formDataCopy.phoneNumber,
+            error: phoneValidationError,
+          },
+        };
+      } else if (formDataCopy.phoneNumber.error) {
+        formDataCopy = {
+          ...formDataCopy,
+          phoneNumber: {
+            ...formDataCopy.phoneNumber,
+            error: null,
+          },
+        };
+      }
+    }
+
+    // Message validation
+    if (!formDataCopy.message.value) {
+      formDataCopy = {
+        ...formDataCopy,
+        message: {
+          ...formDataCopy.message,
+          error: "Required field!",
+        },
+      };
+    } else if (formDataCopy.message.error) {
+      formDataCopy = {
+        ...formDataCopy,
+        message: {
+          ...formDataCopy.message,
+          error: null,
+        },
+      };
+    }
+
+    setFormData(formDataCopy);
+
+    if (
+      !Object.values(formDataCopy).some(({ value, error }) => !value || error)
+    ) {
+      // Submit form data
+    }
 
     e.preventDefault();
 
@@ -109,6 +246,7 @@ const Form = () => {
           placeholder="Phone Number"
           isRequired={true}
           isDisabled={loading}
+          maxLength={12}
           onChange={(e) => {
             const value = e.target.value;
             const newValue = {
@@ -123,6 +261,7 @@ const Form = () => {
         <TextArea
           label="Message"
           value={formData.message.value}
+          error={formData.message.error}
           isRequired={true}
           isDisabled={loading}
           onChange={(e) => {
@@ -136,8 +275,8 @@ const Form = () => {
         />
       </Wrapper>
       <button
-        className="text-xs bg-custom-primary text-white font-medium rounded-lg py-3 hover:brightness-90 active:brightness-95 mt-6"
-        type="button"
+        className="text-xs bg-custom-primary text-white font-medium rounded-lg py-3 hover:brightness-90 active:brightness-95 mt-4"
+        type="submit"
       >
         Send message
       </button>
