@@ -1,10 +1,12 @@
+import Link from "next/link";
+
 const Footer = ({ address, contactNumber, email, social }) => {
   return (
     <div className="bg-[#F7F7F7] text-custom-secondary py-12 px-4 md:px-16 rounded-t-2xl">
       <h5 className="font-bold text-[10px] uppercase text-custom-tertiary">
         Get in touch
       </h5>
-      <div className="flex flex-wrap mt-4 text-sm gap-20">
+      <div className="flex flex-wrap mt-4 text-sm gap-8 md:gap-20">
         <p>
           <span>{address.street}</span>
           <br />
@@ -28,9 +30,9 @@ const Footer = ({ address, contactNumber, email, social }) => {
             ))}
           </div>
           <div className="mt-2 flex gap-2">
-            <a href="#" style={{ textDecorationSkipInk: "all" }}>
+            <Link href="/privacy" style={{ textDecorationSkipInk: "all" }}>
               Privacy Policy
-            </a>
+            </Link>
             <span>/</span>
             <a href="#">Terms & Condtions</a>
           </div>
