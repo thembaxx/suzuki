@@ -4,13 +4,13 @@ import Image from "next/image";
 
 const Carousel = ({ items }) => {
   const containerRef = useRef(null);
-  const containerWidth = useRef(0);
+  const [containerWidth, setContainerWidth] = useState(0);
   const carouselScrollWidth = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const transform = useRef(0);
   const [translateX, setTranslateX] = useState(0);
 
-  //   ResizeObserver to handle width change.
+  // ResizeObserver to handle width change.
   const handleResizeObserver = useCallback((entries) => {
     const entry = entries[0];
     let width;
@@ -26,51 +26,53 @@ const Carousel = ({ items }) => {
       width = entry.contentRect.width;
     }
 
-    containerWidth.current = width;
-    carouselScrollWidth.current = containerRef.current.scrollWidth;
+    //console.log(width);
+    setContainerWidth(width);
+    carouselScrollWidth.current = containerRef.current?.scrollWidth;
   }, []);
 
   useEffect(() => {
-    const observer = new ResizeObserver(handleResizeObserver);
-    observer.observe(containerRef?.current);
+    if (containerRef.current) {
+      const observer = new ResizeObserver(handleResizeObserver);
+      observer.observe(containerRef?.current);
+    }
 
     // const bars = new Array(items.length).fill(0);
     // setScrollBars(bars);
   }, [handleResizeObserver, items?.length]);
 
   const indexChangeHandler = (index) => {
-    const scrollBy = (containerWidth.current * containerRef.current) / 100;
+    transform.current = containerWidth * index;
 
-    transform.current = scrollBy * index;
-    console.log(transform.current);
-
-    setTransform(transform.current);
+    setTranslateX(transform.current * -1);
   };
 
-  const setTransform = (value) => {
-    setTranslateX(value);
-  };
+  console.log(containerWidth);
 
   return (
-    <div className="flex flex-col w-full overflow-hidden">
-      <div ref={containerRef} className="flex overflow-x-auto mb-2">
+    <div ref={containerRef} className="overflow-hidden">
+      <div
+        className={`flex w-full mb-2 transform-gpu transition duration-500 ease-in-out`}
+        style={{ transform: `translateX(${translateX}px)` }}
+      >
         {items?.map((img, i) => {
           return (
             <div
               key={i}
-              className={`w-[360px] aspect-w-2 aspect-h-1 bg-gray-200  relative rounded-t-xl overflow-hidden md:rounded-none`}
+              className={`bg-gray-100 aspect-w-2 aspect-h-1 w-[${containerWidth}px] flex-shrink-0`}
             >
               <Image src={img} alt="" fill style={{ objectFit: "cover" }} />
             </div>
           );
         })}
       </div>
-      <div className="flex w-full gap-2 px-2">
+
+      <div className="flex w-full gap-2 px-2 py-2 overflow-hidden">
         {items?.map((img, i) => {
           return (
             <div
               key={i}
-              className={`${
+              className={`flex-shrink-0 ${
                 activeIndex === i && "outline"
               } outline-blue-700 cursor-pointer`}
               onClick={() => {
@@ -82,7 +84,7 @@ const Carousel = ({ items }) => {
                 src={img}
                 alt=""
                 width={128}
-                height={40}
+                height={64}
                 style={{ objectFit: "cover" }}
               />
             </div>
