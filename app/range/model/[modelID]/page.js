@@ -3,6 +3,7 @@ import requests from "../../../../services/api/requests";
 import { capitalizeStr } from "../../../../utitlities/capitalizeStr";
 
 import Chip from "../../../../components/Chip";
+import Content from "./Content";
 import Form from "./Form";
 
 const fetchCar = async (modelID) => {
@@ -22,7 +23,7 @@ const Metric = ({ value, unit, label }) => {
   );
 };
 
-const Header = ({ range, model }) => {
+const Header = ({ range, model, ...data }) => {
   const pricing = model?.pricing;
   const priceInclVAT = pricing?.listPriceIncl;
   const monthlyEstimate = pricing?.estimatedMonthly ?? 0;
@@ -40,7 +41,7 @@ const Header = ({ range, model }) => {
 
   return (
     <div>
-      <div className="aspect-w-2 aspect-h-1 bg-gray-200 w-full relative rounded-t-xl overflow-hidden">
+      <div className="aspect-w-2 aspect-h-1 bg-gray-200 w-full relative rounded-t-xl overflow-hidden md:rounded-none">
         <Image src={picture} alt="" fill style={{ objectFit: "cover" }} />
       </div>
 
@@ -77,6 +78,11 @@ const Header = ({ range, model }) => {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="w-full px-6 py-4">
+        <h4 className="text-[11px] uppercase font-semibold">key metrics</h4>
+        <Metrics {...data} />
       </div>
     </div>
   );
@@ -137,21 +143,26 @@ const Page = async ({ params }) => {
   }
 
   return (
-    <div className="pb-6">
+    <div className="pb-4 flex flex-col md:flex-row">
       <Header {...data} />
-      <div className="w-full px-6 py-4">
-        <h4 className="text-[11px] uppercase font-semibold">key metrics</h4>
-        <Metrics {...data} />
+
+      <div className="bg-gray-100 flex-grow px-4 py-8 h-[200vh]">
+        <Content {...data} />
       </div>
-      <div className="bg-[#fafafa] px-6 py-6 rounded-lg">
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold">Contact me</h1>
-          <p className="text-xs font-medium mt-2">
-            If you are interested in this vehicle and would like our team to
-            contact you, please fill out your contact information below
-          </p>
+
+      <div className="flex flex-col 2xl:h-screen md:max-w-[320px] px-4 py-4">
+        <div className="bg-[#fafafa] rounded-lg xl:h-full">
+          <div className="mb-8">
+            <h1 className="text-3xl font-extrabold">Enquire</h1>
+            <p className="text-xs font-medium mt-2">
+              If you are interested in this vehicle and would like our team to
+              contact you, please fill out your contact information below
+            </p>
+          </div>
+          <div className="flex-grow">
+            <Form />
+          </div>
         </div>
-        <Form />
       </div>
     </div>
   );
