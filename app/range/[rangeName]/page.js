@@ -164,25 +164,32 @@ const Sidebar = ({ data, fuel, transmission }) => {
   return (
     <div className="w-[325px]">
       <h4 className="text-[11px] uppercase font-semibold">Perfomance</h4>
-      <div className="flex items-center py-4 gap-4 border-b">
-        <Metric
-          value={parseFloat(zeroToHundred)}
-          unit="sec"
-          label="0-100 km/h"
-        />
-        <div className="bg-gray-300 h-6 w-[1px]"></div>
-        <Metric
-          value={parseFloat(maximumPower)}
-          unit="kW"
-          label="Maximum power"
-        />
-        <div className="bg-gray-300 h-6 w-[1px]"></div>
-        <Metric
-          value={parseFloat(maximumTorque)}
-          unit="Nm"
-          label="Maximum torque"
-        />
+      <div className="border-b pt-4">
+        <div className="flex items-center gap-4 pb-6">
+          <Metric
+            value={parseFloat(zeroToHundred)}
+            unit="sec"
+            label="0-100 km/h"
+          />
+          <div className="bg-gray-300 h-6 w-[1px]"></div>
+          <Metric
+            value={parseFloat(maximumPower)}
+            unit="kW"
+            label="Maximum power"
+          />
+          <div className="bg-gray-300 h-6 w-[1px]"></div>
+          <Metric
+            value={parseFloat(maximumTorque)}
+            unit="Nm"
+            label="Maximum torque"
+          />
+        </div>
+        <p className="text-[10px] mb-2">
+          <span className="text-red-500 font-bold">*</span>{" "}
+          <span>Provided values are only average estimates. E & OE.</span>
+        </p>
       </div>
+
       <div>
         <h4 className="text-[11px] uppercase font-semibold mt-6">
           Specifications
