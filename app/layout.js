@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import "../styles/globals.css";
 import { Inter } from "@next/font/google";
+import Loading from "./loading";
 
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
@@ -16,7 +18,10 @@ const RootLayout = ({ children }) => {
         <header className="bg-white sticky top-0 z-50">
           <NavBar {...company} />
         </header>
-        <main className="flex-grow">{children}</main>
+
+        <main className="flex-grow">
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </main>
         <footer>
           <Footer {...company} />
         </footer>

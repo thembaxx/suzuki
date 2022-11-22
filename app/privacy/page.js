@@ -321,14 +321,6 @@ const Page = () => {
                 unsubscribe link included in each such email.
               </p>
               <p>
-                For example, you can choose not to access our Sites through your
-                social media account. You may also be able to limit the
-                information provided to us by third party social media providers
-                by altering your privacy settings with those providers. You may
-                unsubscribe from promotional emails from us by following the
-                unsubscribe link included in each such email.
-              </p>
-              <p>
                 HeyCarter (Pty) Ltd uses Google Analytics, which helps HeyCarter
                 (Pty) Ltd better understand its audience and target
                 communications and advertisements based on demographic or

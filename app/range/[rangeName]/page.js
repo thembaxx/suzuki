@@ -69,7 +69,7 @@ const Card = ({
         </p>
         <Link
           className="flex items-center text-xs font-medium mt-4 -ml-1"
-          href={`/model/${model_ID}`}
+          href={`/range/model/${model_ID}`}
           passHref
         >
           <div className="flex items-center font-medium justify-center h-3 w-3 mr-1">

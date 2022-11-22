@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import HeroImage from "../../public/hero.png";
 
 const Hero = () => {
@@ -17,12 +18,19 @@ const Hero = () => {
           </p>
           <div className="flex items-center md:mt-8 gap-6">
             <p className="text-xs">
-              <span>From</span> <span className="font-bold">R 334 900</span>{" "}
+              <span>From</span> <span className="font-bold">R 307 900</span>{" "}
               <span className="font-bold text-red-600 ml-1">*</span>
             </p>
-            <button className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary">
+            {/* <button className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary">
               Learn more
-            </button>
+            </button> */}
+            <Link
+              className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary"
+              href={`/range/Jimny`}
+              passHref
+            >
+              Learn more
+            </Link>
           </div>
         </div>
       </div>
@@ -35,17 +43,24 @@ const Hero = () => {
         </p>
         <div className="flex items-center mt-8 gap-6">
           <p className="text-xs">
-            <span>From</span> <span className="font-bold">R 334 900</span>{" "}
+            <span>From</span> <span className="font-bold">R 307 900</span>{" "}
             <span className="font-bold text-red-600 ml-1">*</span>
           </p>
-          <button className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary">
+          <Link
+            className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary"
+            href={`/range/Jimny`}
+            passHref
+          >
             Learn more
-          </button>
+          </Link>
+          {/* <button className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary">
+            Learn more
+          </button> */}
         </div>
       </div>
       <div className="bg-primary px-12 py-8 text-white bg-custom-primary">
         <h1 className="text-sm md:text-2xl font-black text-center uppercase mb-3">
-          Welcome to Suzuki Rosebank!
+          Suzuki Rosebank!
         </h1>
 
         <div className="flex text-sm justify-center">
