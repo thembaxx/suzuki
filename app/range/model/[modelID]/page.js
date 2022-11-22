@@ -3,6 +3,7 @@ import requests from "../../../../services/api/requests";
 import { capitalizeStr } from "../../../../utitlities/capitalizeStr";
 
 import Chip from "../../../../components/Chip";
+import Form from "./Form";
 
 const fetchCar = async (modelID) => {
   const resp = await requests.getCar(modelID);
@@ -141,6 +142,16 @@ const Page = async ({ params }) => {
       <div className="w-full px-6 py-4">
         <h4 className="text-[11px] uppercase font-semibold">key metrics</h4>
         <Metrics {...data} />
+      </div>
+      <div className="bg-[#fafafa] px-6 py-6 rounded-lg">
+        <div className="mb-8">
+          <h1 className="text-3xl font-extrabold">Contact me</h1>
+          <p className="text-xs font-medium mt-2">
+            If you are interested in this vehicle and would like our team to
+            contact you, please fill out your contact information below
+          </p>
+        </div>
+        <Form />
       </div>
     </div>
   );
