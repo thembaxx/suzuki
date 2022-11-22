@@ -185,7 +185,7 @@ const Form = () => {
   return (
     <form className="flex flex-col h-full" onSubmit={handleSubmit}>
       <div className="flex-grow">
-        <div className="flex flex-col md:gap-6 w-full">
+        <div className="flex flex-col md:gap-0 w-full">
           <Wrapper>
             <TextField
               label="First name"
