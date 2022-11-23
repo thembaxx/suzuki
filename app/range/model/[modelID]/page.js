@@ -84,8 +84,6 @@ const Page = async ({ params }) => {
     model = data?.model;
   }
 
-  console.log(modelID);
-
   return (
     <div className="pb-4 flex flex-col lg:flex-row relative">
       <div className="lg:sticky lg:top-24 lg:h-full lg:w-[360px]">

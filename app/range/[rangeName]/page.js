@@ -251,9 +251,11 @@ const Page = async ({ params }) => {
   fuelSupport = Array.from(fuelSupport);
   fuelSupport = fuelSupport.join(", ");
 
+  console.log("hellow");
+
   return (
     <div className="w-full">
-      <div className="flex flex-col md:flex-row min-h-[300px] relative">
+      <div className="flex flex-col md:flex-row relative">
         <div className="bg-white px-6 md:px-6 py-4 md:sticky h-[100%] top-24">
           <div className="flex flex-col justify-center py-3 mb-6">
             <h3 className="font-semibold text-lg">

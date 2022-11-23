@@ -7,4 +7,22 @@
         @apply text-custom-primary;
         scroll-behavior: smooth !important;
     }
+
+    .carousel-list {
+        -webkit-transform-style: preserve-3d;
+        -moz-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    .carousel-list::-webkit-scrollbar {
+        display: none;
+    }
 }
