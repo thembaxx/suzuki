@@ -6,7 +6,7 @@ import { capitalizeStr } from "../../../../utitlities/capitalizeStr";
 import Chip from "../../../../components/Chip";
 import Content from "./Content";
 import Form from "./Form";
-import Carousel from "../../../../components/carousel/Carousel";
+import Carousel from "../../../../components/Carousel";
 
 const fetchCar = async (modelID) => {
   const resp = await requests.getCar(modelID);
