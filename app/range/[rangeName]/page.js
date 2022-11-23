@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { capitalizeStr } from "../../../utitlities/capitalizeStr";
+import Accordion from "../../../components/Accordion";
 
 const fetchModels = async (rangeName) => {
   let data = {};
@@ -41,7 +42,6 @@ const Card = ({
   fuel,
   transmission,
   price,
-  model_ID,
 }) => {
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm w-[300px]">
@@ -67,16 +67,12 @@ const Card = ({
           )}`}</span>{" "}
           <span className="text-red-500 font-bold">*</span>
         </p>
-        <Link
-          className="flex items-center text-xs font-medium mt-4 -ml-1"
-          href={`/range/model/${model_ID}`}
-          passHref
-        >
+        <div className="flex items-center text-xs font-medium mt-4 -ml-1">
           <div className="flex items-center font-medium justify-center h-3 w-3 mr-1">
             <ChevronRightIcon />
           </div>
           <span>Show more</span>
-        </Link>
+        </div>
       </div>
     </div>
   );
@@ -163,65 +159,69 @@ const Sidebar = ({ data, fuel, transmission }) => {
 
   return (
     <div className="w-[325px]">
-      <h4 className="text-[11px] uppercase font-semibold">Perfomance</h4>
-      <div className="border-b pt-4">
-        <div className="flex items-center gap-4 pb-6">
-          <Metric
-            value={parseFloat(zeroToHundred)}
-            unit="sec"
-            label="0-100 km/h"
-          />
-          <div className="bg-gray-300 h-6 w-[1px]"></div>
-          <Metric
-            value={parseFloat(maximumPower)}
-            unit="kW"
-            label="Maximum power"
-          />
-          <div className="bg-gray-300 h-6 w-[1px]"></div>
-          <Metric
-            value={parseFloat(maximumTorque)}
-            unit="Nm"
-            label="Maximum torque"
-          />
-        </div>
-        <p className="text-[10px] mb-2">
-          <span className="text-red-500 font-bold">*</span>{" "}
-          <span>Provided values are only average estimates. E & OE.</span>
-        </p>
+      <div>
+        <Accordion label="Perfomance">
+          <div>
+            <div className="flex items-center gap-4 pb-6">
+              <Metric
+                value={parseFloat(zeroToHundred)}
+                unit="sec"
+                label="0-100 km/h"
+              />
+              <div className="bg-gray-300 h-6 w-[1px]"></div>
+              <Metric
+                value={parseFloat(maximumPower)}
+                unit="kW"
+                label="Maximum power"
+              />
+              <div className="bg-gray-300 h-6 w-[1px]"></div>
+              <Metric
+                value={parseFloat(maximumTorque)}
+                unit="Nm"
+                label="Maximum torque"
+              />
+            </div>
+            <p className="text-[10px] mb-2">
+              <span className="text-red-500 font-bold">*</span>{" "}
+              <span>Provided values are only average estimates. E & OE.</span>
+            </p>
+          </div>
+        </Accordion>
       </div>
 
-      <div>
-        <h4 className="text-[11px] uppercase font-semibold mt-6">
-          Specifications
-        </h4>
-        <div className="border-b py-4">
-          <Property label="Fuel type" value={fuel ?? "Unknown"} />
-          <Property label="Fuel capacity" value={fuelTankCapacity} />
-          <Property label="Transmission" value={transmission} />
-          <Property label="Doors" value={doors} />
-          <Property label="Seats (quantity)" value={seats} />
-          <Property label="Fuel consumption(avg)" value={fuelConsumption} />
-          <Property label="CO2 emissions(avg)" value={emissions} />
-        </div>
-        {warrantyDistance && warrantyYears && (
+      <div className="mt-2">
+        <Accordion label="Specifications">
           <div>
-            <div className="flex items-center">
-              <div className="flex items-center justify-center h-4 w-4 mr-2">
-                <WrenchScrewdriverIcon />
-              </div>
-              <p className="text-[13px] py-4">
-                <span>{`${warrantyYears}${
-                  warrantyDistance &&
-                  `/${
-                    parseFloat(warrantyDistance)?.toLocaleString("en-ZA") +
-                    " km"
-                  } stardard warranty`
-                }`}</span>{" "}
-                <span className="text-red-500 font-bold">*</span>
-              </p>
+            <div className="border-b py-4">
+              <Property label="Fuel type" value={fuel ?? "Unknown"} />
+              <Property label="Fuel capacity" value={fuelTankCapacity} />
+              <Property label="Transmission" value={transmission} />
+              <Property label="Doors" value={doors} />
+              <Property label="Seats (quantity)" value={seats} />
+              <Property label="Fuel consumption(avg)" value={fuelConsumption} />
+              <Property label="CO2 emissions(avg)" value={emissions} />
             </div>
+            {warrantyDistance && warrantyYears && (
+              <div>
+                <div className="flex items-center">
+                  <div className="flex items-center justify-center h-4 w-4 mr-2">
+                    <WrenchScrewdriverIcon />
+                  </div>
+                  <p className="text-[13px] py-4">
+                    <span>{`${warrantyYears}${
+                      warrantyDistance &&
+                      `/${
+                        parseFloat(warrantyDistance)?.toLocaleString("en-ZA") +
+                        " km"
+                      } stardard warranty`
+                    }`}</span>{" "}
+                    <span className="text-red-500 font-bold">*</span>
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </Accordion>
       </div>
     </div>
   );
@@ -251,8 +251,6 @@ const Page = async ({ params }) => {
   fuelSupport = Array.from(fuelSupport);
   fuelSupport = fuelSupport.join(", ");
 
-  console.log("hellow");
-
   return (
     <div className="w-full">
       <div className="flex flex-col md:flex-row relative">
@@ -273,7 +271,9 @@ const Page = async ({ params }) => {
         </div>
         <div className="bg-gray-50 flex-grow flex items-center justify-center md:justify-start md:items-start gap-6 flex-wrap px-8 py-6 xl:max-w-[1200px]">
           {data?.map((item, i) => (
-            <Card key={i} rangeName={rangeName} picture={picture} {...item} />
+            <Link key={i} href={`/range/model/${item?.model_ID}`} passHref>
+              <Card rangeName={rangeName} picture={picture} {...item} />
+            </Link>
           ))}
         </div>
       </div>

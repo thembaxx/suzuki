@@ -25,13 +25,9 @@ const Item = ({ pictures, range, min_price, min_price_monthly }) => {
           )}`}</span>{" "}
           <span className="text-red-500 font-bold">*</span>
         </p>
-        <Link
-          className="text-sm font-medium underline-offset-2 underline"
-          href={`/range/${range}`}
-          passHref
-        >
+        <div className="text-sm font-medium underline-offset-2 underline">
           Learn more
-        </Link>
+        </div>
       </div>
     </div>
   );
@@ -48,7 +44,9 @@ const Content = ({ items }) => {
       </div>
       <div className="flex justify-center flex-wrap xl:max-w-[1200px] gap-6">
         {items?.map((item, i) => (
-          <Item key={i} {...item} />
+          <Link key={i} href={`/range/${item?.range}`} passHref>
+            <Item {...item} />
+          </Link>
         ))}
       </div>
       <p className="mt-12 text-[10px]">
