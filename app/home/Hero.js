@@ -35,7 +35,7 @@ const Hero = () => {
         </div>
       </div>
       <div className="mx-4 my-6 md:hidden md:m-14">
-        <h2 className="uppercase font-black mb-3 text-xl md:text-3xl shadow-sm">
+        <h2 className="uppercase font-black mb-3 text-xl md:text-3xl">
           Suzuki Jimny
         </h2>
         <p className="text-l">
