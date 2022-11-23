@@ -54,12 +54,12 @@ const Header = ({ range, model, ...data }) => {
             <h3 className="my-3 text-xl">
               <span className="font-semibold">{`R ${parseInt(
                 monthlyEstimate
-              ).toLocaleString("en-ZA")}`}</span>{" "}
+              )?.toLocaleString("en-ZA")}`}</span>{" "}
               <span className="text-base">pm</span>
               <br className="py-2" />
               <span className="font-medium text-sm">
                 <span className="font-normal">or</span>{" "}
-                <span>{`R ${priceInclVAT.toLocaleString("en-ZA")}`}</span>{" "}
+                <span>{`R ${priceInclVAT?.toLocaleString("en-ZA")}`}</span>{" "}
                 <span className="text-xs">cash price</span>
                 <span className="text-red-500">*</span>
               </span>
@@ -89,7 +89,7 @@ const Page = async ({ params }) => {
         <Header {...data} />
       </div>
 
-      <div className="border-l border-r flex-grow mb-8">
+      <div className="border-l border-r flex-grow pb-8">
         <Content {...data} />
       </div>
 

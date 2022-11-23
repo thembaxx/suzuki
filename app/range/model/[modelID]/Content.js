@@ -1,3 +1,5 @@
+import { capitalizeStr } from "../../../../utitlities/capitalizeStr";
+
 const Metric = ({ value, unit, label }) => {
   return (
     <div>
@@ -59,8 +61,8 @@ const Metrics = ({ model }) => {
 const Property = ({ label, value }) => {
   return (
     <div className="flex justify-between text-[13px] py-2">
-      <p>{label}</p>
-      <p className="font-medium">{value}</p>
+      <p>{capitalizeStr(label)}</p>
+      <p className="font-medium">{capitalizeStr(value)}</p>
     </div>
   );
 };
@@ -85,7 +87,7 @@ const Section = ({ title, data }) => {
 const Content = ({ ...data }) => {
   return (
     <div className="w-full relative">
-      <div className="bg-white border-t sticky top-24 py-4 px-6">
+      <div className="bg-white border-t sticky top-24 pt-4 pb-6 px-6">
         <h3 className="font-normal text-2xl">Overview</h3>
       </div>
       <div className="py-2 px-6">
