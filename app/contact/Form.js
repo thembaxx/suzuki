@@ -1,12 +1,18 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import requests from "../../services/api/requests";
 import TextField from "../../components/TextField";
 import TextArea from "../../components/TextArea";
+import Spinner from "../../components/Spinner";
+
+import formatPhoneNumber from "../../utitlities/formatPhoneNumber";
 
 // validation
 import validateNoSpecialChars from "../../utitlities/validateNoSpecialChars";
 import validateEmail from "../../utitlities/validateEmail";
 import validateZAPhoneNumber from "../../utitlities/validateZAPhoneNumber";
+
+import emailDomains from "../../data/emailDomains";
 
 const defaultFormData = {
   firstName: {
@@ -38,6 +44,51 @@ const Wrapper = ({ children }) => {
 const Form = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
+
+  //#region EMAIL SUGGESTION
+  const emailRef = useRef(null);
+  const prevEmail = useRef("");
+  const prevVal = useRef("");
+
+  const suggest = (email) => {
+    const theDomains = [...emailDomains];
+
+    const [, /* emailName */ partialDomain] = email.split("@");
+    if (!partialDomain || email.length <= prevVal.current.length) return "";
+    const domain = theDomains.find((d) => d.indexOf(partialDomain) === 0) || "";
+    return domain.replace(partialDomain, "");
+  };
+
+  const highlight = (suggestion) => {
+    setTimeout(() => {
+      emailRef.current?.setAttribute("type", "text");
+      const email = prevVal.current + suggestion;
+      const startPos = email.lastIndexOf(suggestion);
+      const endPos = startPos + suggestion.length;
+      emailRef.current?.setSelectionRange(startPos, endPos);
+
+      emailRef.current?.setAttribute("type", "email");
+    }, 0);
+  };
+
+  const emailChangeHandler = (e) => {
+    const value = e.target.value;
+    const suggestion = suggest(value);
+    const theEmail = value + suggestion;
+    const newValue = {
+      ...formData.email,
+      value: theEmail,
+    };
+
+    setFormData((prev) => ({ ...prev, email: newValue }));
+    //setEmail(theEmail);
+
+    if (suggestion) highlight(suggestion);
+    prevEmail.current = theEmail;
+    prevVal.current = value;
+  };
+
+  //#endregion
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -198,7 +249,21 @@ const Form = () => {
     if (
       !Object.values(formDataCopy).some(({ value, error }) => !value || error)
     ) {
-      // Submit form data
+      const data = {
+        UserFirstname: formData.firstName.value,
+        UserSurname: formData.lastName.value,
+        UserName: formData.email.value,
+        UserPhoneNumber: formData.phoneNumber.value,
+        ContactMessage: formData.message.value,
+        UserType: "USER",
+        ServiceType: "CONTACT",
+        UserToken: "",
+      };
+
+      const resp = await requests.submitEnquiry(data);
+      if (resp) {
+        console.log("success", resp);
+      }
     }
 
     e.preventDefault();
@@ -249,6 +314,7 @@ const Form = () => {
       </div>
       <Wrapper>
         <TextField
+          ref={emailRef}
           label="Email"
           value={formData.email.value}
           error={formData.email.error}
@@ -256,12 +322,7 @@ const Form = () => {
           isRequired={true}
           isDisabled={loading}
           onChange={(e) => {
-            const value = e.target.value;
-            const newValue = {
-              ...formData.email,
-              value,
-            };
-            setFormData((prev) => ({ ...prev, email: newValue }));
+            emailChangeHandler(e);
           }}
         />
       </Wrapper>
@@ -273,9 +334,9 @@ const Form = () => {
           placeholder="Phone Number"
           isRequired={true}
           isDisabled={loading}
-          maxLength={12}
+          maxLength={14}
           onChange={(e) => {
-            const value = e.target.value;
+            const value = formatPhoneNumber(e.target.value);
             const newValue = {
               ...formData.phoneNumber,
               value,
@@ -302,10 +363,19 @@ const Form = () => {
         />
       </Wrapper>
       <button
-        className="text-xs bg-custom-tertiary text-white font-medium rounded-lg py-3 hover:brightness-90 active:brightness-95 mt-4"
+        disabled={loading}
+        className="flex items-center justify-center text-xs bg-custom-tertiary text-white font-medium rounded-lg h-10 hover:brightness-90 active:brightness-95 mt-4 disabled:pointer-events-none disabled:bg-opacity-95"
         type="submit"
       >
-        Send message
+        {!loading && <span>Send message</span>}
+        {loading && (
+          <Spinner
+            color="text-white"
+            fill="fill-custom-primary"
+            classNameSize="h-5 w-5"
+            className="text-opacity-5"
+          />
+        )}
       </button>
     </form>
   );

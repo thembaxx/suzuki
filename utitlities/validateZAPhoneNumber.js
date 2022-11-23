@@ -1,5 +1,12 @@
+const removeSpecialChars = (value, removeSpaces = true) => {
+  if (!value) return;
+  if (removeSpaces) value = value.replace(/\s+/g, "");
+  return value.replace(/[^a-z0-9,. ]/gi, "");
+};
+
 const validateZAPhoneNumber = (num) => {
-  let str = num.toString();
+  if (!num) return num;
+  let str = removeSpecialChars(num.toString());
   str = str.replace(/\s/g, "");
 
   if (str.startsWith("+")) str.replace("+", " ");
