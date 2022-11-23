@@ -161,7 +161,7 @@ const Sidebar = ({ data, fuel, transmission }) => {
     <div className="w-[325px]">
       <div>
         <Accordion label="Perfomance">
-          <div>
+          <div className="py-4">
             <div className="flex items-center gap-4 pb-6">
               <Metric
                 value={parseFloat(zeroToHundred)}
@@ -181,7 +181,7 @@ const Sidebar = ({ data, fuel, transmission }) => {
                 label="Maximum torque"
               />
             </div>
-            <p className="text-[10px] mb-2">
+            <p className="text-[10px]">
               <span className="text-red-500 font-bold">*</span>{" "}
               <span>Provided values are only average estimates. E & OE.</span>
             </p>
@@ -207,7 +207,7 @@ const Sidebar = ({ data, fuel, transmission }) => {
                   <div className="flex items-center justify-center h-4 w-4 mr-2">
                     <WrenchScrewdriverIcon />
                   </div>
-                  <p className="text-[13px] py-4">
+                  <p className="text-[13px] py-3">
                     <span>{`${warrantyYears}${
                       warrantyDistance &&
                       `/${

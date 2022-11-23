@@ -263,7 +263,7 @@ const Form = () => {
         </Wrapper>
       </div>
       <button
-        className="text-xs bg-custom-primary text-white font-medium rounded-lg py-3 hover:brightness-90 active:brightness-95 mt-4"
+        className="text-xs bg-custom-tertiary text-white font-medium rounded-lg py-3 hover:brightness-90 active:brightness-95 mt-4"
         type="submit"
       >
         Submit enquiry

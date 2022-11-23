@@ -34,13 +34,14 @@ const Accordion = ({ label, isOpen, children, onClick }) => {
   });
 
   const handleClick = () => {
+    console.log("fuck");
     setOpen((prev) => !prev);
     onClick && onClick();
   };
 
   return (
     <div
-      className="border rounded-lg px-3 py-2"
+      className="border rounded-lg"
       ref={(node) =>
         isOpen &&
         node &&
@@ -50,7 +51,10 @@ const Accordion = ({ label, isOpen, children, onClick }) => {
         })
       }
     >
-      <div className="flex items-center justify-between" onClick={handleClick}>
+      <div
+        className="flex items-center justify-between cursor-pointer select-none px-3 py-2"
+        onClick={handleClick}
+      >
         <h2 className="font-medium text-sm">{label}</h2>
         <div
           style={iconProps}
@@ -60,6 +64,7 @@ const Accordion = ({ label, isOpen, children, onClick }) => {
         </div>
       </div>
       <animated.div
+        className={`${!open && "hidden"} px-3`}
         ref={(node) => setMaxHeight(node?.scrollHeight)}
         style={contentProps}
       >

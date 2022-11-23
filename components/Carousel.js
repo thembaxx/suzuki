@@ -12,7 +12,7 @@ const Pagination = ({ items, activeIndex, onClick }) => {
       {items?.map((_, i) => (
         <div
           key={i}
-          className="flex items-center justify-center h-6 w-6"
+          className="flex items-center justify-center h-6 w-6 gap-1 cursor-pointer"
           onClick={() => onClick(i)}
         >
           <div
@@ -33,6 +33,7 @@ const Carousel = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const transform = useRef(0);
   const [translateX, setTranslateX] = useState(0);
+  const listRef = useRef(null);
 
   // ResizeObserver to handle width change.
   const handleResizeObserver = useCallback((entries) => {
@@ -71,6 +72,7 @@ const Carousel = ({ items }) => {
     setTranslateX(transform.current * -1);
 
     // scroll into viewport
+    listRef.current?.scrollTo(128 * index, 0);
   };
 
   return (
@@ -93,7 +95,10 @@ const Carousel = ({ items }) => {
       </div>
 
       {items?.length > 1 && (
-        <div className="bg-gray-100 flex w-full gap-2 px-3 py-3 overflow-x-auto carousel-list">
+        <div
+          ref={listRef}
+          className="bg-gray-100 flex w-full gap-2 px-3 py-3 overflow-x-auto carousel-list"
+        >
           {items?.map((img, i) => {
             return (
               <div
