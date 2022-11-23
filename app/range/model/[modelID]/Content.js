@@ -28,7 +28,7 @@ const Metrics = ({ model }) => {
     )?.value ?? 0;
 
   return (
-    <div className="border-b pt-4">
+    <div className="pt-4">
       <div className="flex items-center gap-4 pb-6">
         <Metric
           value={parseFloat(zeroToHundred)}
@@ -56,13 +56,48 @@ const Metrics = ({ model }) => {
   );
 };
 
+const Property = ({ label, value }) => {
+  return (
+    <div className="flex justify-between text-[13px] py-2">
+      <p>{label}</p>
+      <p className="font-medium">{value}</p>
+    </div>
+  );
+};
+
+const Section = ({ title, data }) => {
+  return (
+    <div className="max-w-[500px] px-6 mt-8">
+      <h4 className="text-[11px] uppercase font-semibold mb-2">{title}</h4>
+      <ul>
+        {data?.map(({ key, value }) => (
+          <Property
+            key={key}
+            label={key}
+            value={value === "std" ? "Standard" : value}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 const Content = ({ ...data }) => {
   return (
-    <div className="w-full">
-      <div className="px-0 py-2">
+    <div className="w-full relative">
+      <div className="bg-white border-t sticky top-24 py-4 px-6">
+        <h3 className="font-normal text-2xl">Overview</h3>
+      </div>
+      <div className="py-2 px-6">
         <h4 className="text-[11px] uppercase font-semibold">key metrics</h4>
         <Metrics {...data} />
       </div>
+      <Section title="Safety" data={data?.model?.specifications?.safety} />
+      <Section
+        title="Enviromental"
+        data={data?.model?.specifications?.environmental}
+      />
+      <Section title="Enviromental" data={data?.model?.specifications?.drive} />
     </div>
   );
 };

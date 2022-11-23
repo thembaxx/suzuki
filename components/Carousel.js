@@ -12,7 +12,7 @@ const Pagination = ({ items, activeIndex, onClick }) => {
       {items?.map((_, i) => (
         <div
           key={i}
-          className="flex items-center justify-center h-6 w-6 gap-1 cursor-pointer"
+          className="flex items-center justify-center h-6 w-6 cursor-pointer"
           onClick={() => onClick(i)}
         >
           <div

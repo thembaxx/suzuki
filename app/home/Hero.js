@@ -21,9 +21,6 @@ const Hero = () => {
               <span>From</span> <span className="font-bold">R 307 900</span>{" "}
               <span className="font-bold text-red-600 ml-1">*</span>
             </p>
-            {/* <button className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary">
-              Learn more
-            </button> */}
             <Link
               className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary"
               href={`/range/Jimny`}

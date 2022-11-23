@@ -1,4 +1,3 @@
-import Image from "next/image";
 import requests from "../../../../services/api/requests";
 import { capitalizeStr } from "../../../../utitlities/capitalizeStr";
 // @refresh reset
@@ -85,12 +84,12 @@ const Page = async ({ params }) => {
   }
 
   return (
-    <div className="pb-4 flex flex-col lg:flex-row relative">
+    <div className="flex flex-col lg:flex-row relative">
       <div className="lg:sticky lg:top-24 lg:h-full lg:w-[360px]">
         <Header {...data} />
       </div>
 
-      <div className="border-l border-t border-r flex-grow px-4 py-4 h-[200vh]">
+      <div className="border-l border-r flex-grow mb-8">
         <Content {...data} />
       </div>
 
