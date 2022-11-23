@@ -1,4 +1,5 @@
 "use client";
+// @refresh reset
 import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 
@@ -47,19 +48,19 @@ const Carousel = ({ items }) => {
     setTranslateX(transform.current * -1);
   };
 
-  console.log(containerWidth);
+  console.log(containerRef);
 
   return (
-    <div ref={containerRef} className="overflow-hidden">
+    <div ref={containerRef} className="flex flex-col overflow-hidden">
       <div
-        className={`flex w-full mb-2 transform-gpu transition duration-500 ease-in-out`}
+        className={`flex mb-2 transform-gpu transition duration-500 ease-in-out`}
         style={{ transform: `translateX(${translateX}px)` }}
       >
         {items?.map((img, i) => {
           return (
             <div
               key={i}
-              className={`bg-gray-100 aspect-w-2 aspect-h-1 w-[${containerWidth}px] flex-shrink-0`}
+              className={`bg-gray-100 aspect-w-2 aspect-h-1 w-full w-[${containerWidth}px] flex-shrink-0`}
             >
               <Image src={img} alt="" fill style={{ objectFit: "cover" }} />
             </div>
@@ -67,7 +68,7 @@ const Carousel = ({ items }) => {
         })}
       </div>
 
-      <div className="flex w-full gap-2 px-2 py-2 overflow-hidden">
+      <div className="bg-gray-100 flex w-full gap-2 px-2 py-2 overflow-x-auto carousel-list">
         {items?.map((img, i) => {
           return (
             <div

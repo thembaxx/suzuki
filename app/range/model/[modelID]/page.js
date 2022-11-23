@@ -1,6 +1,7 @@
 import Image from "next/image";
 import requests from "../../../../services/api/requests";
 import { capitalizeStr } from "../../../../utitlities/capitalizeStr";
+// @refresh reset
 
 import Chip from "../../../../components/Chip";
 import Content from "./Content";
@@ -32,9 +33,7 @@ const Header = ({ range, model, ...data }) => {
 
   return (
     <div>
-      <div>
-        <Carousel items={images} />
-      </div>
+      <Carousel items={images} />
       {/* <div className="aspect-w-2 aspect-h-1 bg-gray-200 w-full relative rounded-t-xl overflow-hidden md:rounded-none">
         <Image src={picture} alt="" fill style={{ objectFit: "cover" }} />
       </div> */}
@@ -84,6 +83,8 @@ const Page = async ({ params }) => {
   if (data) {
     model = data?.model;
   }
+
+  console.log(modelID);
 
   return (
     <div className="pb-4 flex flex-col lg:flex-row relative">
