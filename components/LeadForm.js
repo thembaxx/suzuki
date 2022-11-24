@@ -43,7 +43,7 @@ const Wrapper = ({ children }) => {
   return <div className={`flex-grow`}>{children}</div>;
 };
 
-const LeadForm = ({ isEnquiry }) => {
+const LeadForm = ({ isEnquiry, carData }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
 
@@ -265,25 +265,50 @@ const LeadForm = ({ isEnquiry }) => {
     return resp;
   };
 
-  const submitLead = async (formData) => {
-    return null;
+  const submitLead = async (formData, carData) => {
+    const data = {
+      userFirstname: formData.firstName.value,
+      userSurname: formData.lastName.value,
+      userName: formData.email.value,
+      userPhoneNumber: formData.phoneNumber.value,
+      modelID: carData?.model.modelID,
+      brandName: carData?.brand?.brandName,
+      rangeName: carData?.range?.rangeName,
+      modelName: carData?.model?.modelName,
+      clientID: uuidv4(),
+      subscriber_Code: "React_V2",
+      colors: [],
+      hasTradein: false,
+      needsFinance: false,
+      PreloadedDealsID: 71,
+      carterUIDState: "created",
+    };
+
+    return await requests.submitLead(data);
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
 
     const formDataCopy = validateFormData(formData, isEnquiry);
     setFormData(formDataCopy);
+
+    if (!isEnquiry) {
+      delete formDataCopy.message;
+    }
 
     if (
       !Object.values(formDataCopy).some(({ value, error }) => !value || error)
     ) {
       const resp = isEnquiry
         ? await submitEnquiry(formDataCopy)
-        : await submitLead(formDataCopy);
-    }
+        : await submitLead(formDataCopy, carData);
 
-    e.preventDefault();
+      resp && setFormData(defaultFormData);
+
+      // notification?
+    }
 
     setLoading(false);
   };

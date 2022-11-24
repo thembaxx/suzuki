@@ -3,7 +3,7 @@ import Loading from "./loading";
 
 const RangeLayout = ({ children }) => {
   return (
-    <section>
+    <section className="flex flex-col">
       <Suspense fallback={<Loading />}>{children}</Suspense>
     </section>
   );

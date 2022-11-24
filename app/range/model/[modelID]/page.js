@@ -17,9 +17,6 @@ const Header = ({ range, model, ...data }) => {
   const priceInclVAT = pricing?.listPriceIncl;
   const monthlyEstimate = pricing?.estimatedMonthly ?? 0;
 
-  const picture =
-    model?.pictures[0]?.pictureWebPURL ?? model?.pictures[0]?.pictureNormalURL;
-
   const fuel = model?.specifications?.engine?.find(
     (engine) => engine?.key?.toLowerCase() === "fuel type"
   )?.value;
@@ -33,10 +30,6 @@ const Header = ({ range, model, ...data }) => {
   return (
     <div>
       <Carousel items={images} />
-      {/* <div className="aspect-w-2 aspect-h-1 bg-gray-200 w-full relative rounded-t-xl overflow-hidden md:rounded-none">
-        <Image src={picture} alt="" fill style={{ objectFit: "cover" }} />
-      </div> */}
-
       <div className="p-4">
         <div>
           <h3 className="font-semibold text-lg">
@@ -78,10 +71,10 @@ const Header = ({ range, model, ...data }) => {
 const Page = async ({ params }) => {
   const { modelID } = params;
   const data = await fetchCar(modelID);
-  let model;
-  if (data) {
-    model = data?.model;
-  }
+  // let model;
+  // if (data) {
+  //   model = data?.model;
+  // }
 
   return (
     <div className="flex flex-col lg:flex-row relative">
@@ -103,7 +96,7 @@ const Page = async ({ params }) => {
             </p>
           </div>
           <div className="flex-grow">
-            <LeadForm />
+            <LeadForm carData={data} />
           </div>
         </div>
       </div>

@@ -13,8 +13,7 @@ const ImageX = ({ src, ...props }) => {
         alt="..."
         fill
         style={{ objectFit: "cover" }}
-        onLoadingComplete={(e) => {
-          console.log("my loading complete", e);
+        onLoadingComplete={() => {
           setLoading(false);
         }}
       />
