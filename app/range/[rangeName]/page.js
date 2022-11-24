@@ -158,7 +158,7 @@ const Sidebar = ({ data, fuel, transmission }) => {
   //#endregion
 
   return (
-    <div className="w-[325px]">
+    <div className="w-full md:w-[325px]">
       <div>
         <Accordion label="Perfomance">
           <div className="py-4">
@@ -257,10 +257,10 @@ const Page = async ({ params }) => {
         <div className="bg-white px-6 md:px-6 py-4 md:sticky h-[100%] top-24">
           <div className="flex flex-col justify-center py-3 mb-6">
             <h3 className="font-semibold text-lg">
-              Available Models {`(${data?.length ?? 0})`}
+              Suzuki {capitalizeStr(rangeName.replace("%20", " "))}
             </h3>
             <p className="text-sm font-medium">
-              Suzuki {capitalizeStr(rangeName.replace("%20", " "))}
+              Available Models {`(${data?.length ?? 0})`}
             </p>
           </div>
           <Sidebar

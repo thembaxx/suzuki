@@ -4,7 +4,7 @@ import { capitalizeStr } from "../../../../utitlities/capitalizeStr";
 
 import Chip from "../../../../components/Chip";
 import Content from "./Content";
-import Form from "./Form";
+import LeadForm from "../../../../components/LeadForm";
 import Carousel from "../../../../components/Carousel";
 
 const fetchCar = async (modelID) => {
@@ -103,7 +103,7 @@ const Page = async ({ params }) => {
             </p>
           </div>
           <div className="flex-grow">
-            <Form />
+            <LeadForm />
           </div>
         </div>
       </div>

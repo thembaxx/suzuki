@@ -1,18 +1,20 @@
 "use client";
 import { useState, useRef } from "react";
-import requests from "../../services/api/requests";
-import TextField from "../../components/TextField";
-import TextArea from "../../components/TextArea";
-import Spinner from "../../components/Spinner";
+import { v4 as uuidv4 } from "uuid";
 
-import formatPhoneNumber from "../../utitlities/formatPhoneNumber";
+import requests from "../services/api/requests";
+import TextField from "./TextField";
+import TextArea from "./TextArea";
+import Spinner from "./Spinner";
+
+import formatPhoneNumber from "../utitlities/formatPhoneNumber";
 
 // validation
-import validateNoSpecialChars from "../../utitlities/validateNoSpecialChars";
-import validateEmail from "../../utitlities/validateEmail";
-import validateZAPhoneNumber from "../../utitlities/validateZAPhoneNumber";
+import validateNoSpecialChars from "../utitlities/validateNoSpecialChars";
+import validateEmail from "../utitlities/validateEmail";
+import validateZAPhoneNumber from "../utitlities/validateZAPhoneNumber";
 
-import emailDomains from "../../data/emailDomains";
+import emailDomains from "../data/emailDomains";
 
 const defaultFormData = {
   firstName: {
@@ -41,7 +43,7 @@ const Wrapper = ({ children }) => {
   return <div className={`flex-grow`}>{children}</div>;
 };
 
-const Form = () => {
+const LeadForm = ({ isEnquiry }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
 
@@ -90,10 +92,8 @@ const Form = () => {
 
   //#endregion
 
-  const handleSubmit = async (e) => {
-    setLoading(true);
-
-    let formDataCopy = { ...formData };
+  const validateFormData = (data, validateMessage) => {
+    let formDataCopy = { ...data };
 
     // First name validation
     if (!formDataCopy.firstName.value) {
@@ -226,44 +226,61 @@ const Form = () => {
     }
 
     // Message validation
-    if (!formDataCopy.message.value) {
-      formDataCopy = {
-        ...formDataCopy,
-        message: {
-          ...formDataCopy.message,
-          error: "Required field!",
-        },
-      };
-    } else if (formDataCopy.message.error) {
-      formDataCopy = {
-        ...formDataCopy,
-        message: {
-          ...formDataCopy.message,
-          error: null,
-        },
-      };
+    if (validateMessage) {
+      if (!formDataCopy.message.value) {
+        formDataCopy = {
+          ...formDataCopy,
+          message: {
+            ...formDataCopy.message,
+            error: "Required field!",
+          },
+        };
+      } else if (formDataCopy.message.error) {
+        formDataCopy = {
+          ...formDataCopy,
+          message: {
+            ...formDataCopy.message,
+            error: null,
+          },
+        };
+      }
     }
 
+    return formDataCopy;
+  };
+
+  const submitEnquiry = async (formData) => {
+    const data = {
+      UserFirstname: formData.firstName.value,
+      UserSurname: formData.lastName.value,
+      UserName: formData.email.value,
+      UserPhoneNumber: formData.phoneNumber.value,
+      ContactMessage: formData.message.value,
+      UserType: "USER",
+      ServiceType: "CONTACT",
+      UserToken: uuidv4(),
+    };
+
+    const resp = await requests.submitEnquiry(data);
+    return resp;
+  };
+
+  const submitLead = async (formData) => {
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
+    setLoading(true);
+
+    const formDataCopy = validateFormData(formData, isEnquiry);
     setFormData(formDataCopy);
 
     if (
       !Object.values(formDataCopy).some(({ value, error }) => !value || error)
     ) {
-      const data = {
-        UserFirstname: formData.firstName.value,
-        UserSurname: formData.lastName.value,
-        UserName: formData.email.value,
-        UserPhoneNumber: formData.phoneNumber.value,
-        ContactMessage: formData.message.value,
-        UserType: "USER",
-        ServiceType: "CONTACT",
-        UserToken: "",
-      };
-
-      const resp = await requests.submitEnquiry(data);
-      if (resp) {
-        console.log("success", resp);
-      }
+      const resp = isEnquiry
+        ? await submitEnquiry(formDataCopy)
+        : await submitLead(formDataCopy);
     }
 
     e.preventDefault();
@@ -273,7 +290,7 @@ const Form = () => {
 
   return (
     <form className="flex flex-col flex-wrap" onSubmit={handleSubmit}>
-      <div className="flex flex-col md:flex-row md:gap-6 w-full">
+      <div className={`flex flex-wrap ${isEnquiry && "gap-6"} w-full`}>
         <Wrapper>
           <TextField
             label="First name"
@@ -345,29 +362,33 @@ const Form = () => {
           }}
         />
       </Wrapper>
-      <Wrapper>
-        <TextArea
-          label="Message"
-          value={formData.message.value}
-          error={formData.message.error}
-          isRequired={true}
-          isDisabled={loading}
-          onChange={(e) => {
-            const value = e.target.value;
-            const newValue = {
-              ...formData.message,
-              value,
-            };
-            setFormData((prev) => ({ ...prev, message: newValue }));
-          }}
-        />
-      </Wrapper>
+      {isEnquiry && (
+        <Wrapper>
+          <TextArea
+            label="Message"
+            value={formData.message.value}
+            error={formData.message.error}
+            isRequired={true}
+            isDisabled={loading}
+            onChange={(e) => {
+              const value = e.target.value;
+              const newValue = {
+                ...formData.message,
+                value,
+              };
+              setFormData((prev) => ({ ...prev, message: newValue }));
+            }}
+          />
+        </Wrapper>
+      )}
       <button
         disabled={loading}
         className="flex items-center justify-center text-xs bg-custom-tertiary text-white font-medium rounded-lg h-10 hover:brightness-90 active:brightness-95 mt-4 disabled:pointer-events-none disabled:bg-opacity-95"
         type="submit"
       >
-        {!loading && <span>Send message</span>}
+        {!loading && (
+          <span>{isEnquiry ? "Submit message" : "Submit enquiry"}</span>
+        )}
         {loading && (
           <Spinner
             color="text-white"
@@ -381,4 +402,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default LeadForm;

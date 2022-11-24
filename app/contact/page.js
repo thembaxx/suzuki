@@ -1,4 +1,4 @@
-import Form from "./Form";
+import LeadForm from "../../components/LeadForm";
 import company from "../../data/company.json";
 
 const Details = () => {
@@ -25,7 +25,8 @@ const page = () => {
               Our friendly team would love to here from you!
             </p>
           </div>
-          <Form />
+          {/* <Form /> */}
+          <LeadForm isEnquiry={true} />
         </div>
       </div>
       <div className="w-[300px]">
