@@ -19,7 +19,7 @@ const RootLayout = ({ children }) => {
           <NavBar {...company} />
         </header>
 
-        <main>
+        <main className="flex flex-col flex-grow">
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </main>
         <footer>

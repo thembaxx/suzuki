@@ -8,13 +8,14 @@ const Footer = ({ address, contactNumber, email, social }) => {
       </h5>
       <div className="flex flex-wrap mt-4 text-sm gap-8 md:gap-20">
         <p>
-          <span>{address.street}</span>
-          <br />
-          <span>{address.city}</span>
-          <br />
           <span>{address.province}</span>
           <br />
-          <span>{address.postalCode}</span>
+          <span>{address.street}</span>
+          <br />
+          <span>
+            {address.city}, {address.postalCode}
+          </span>
+          <span></span>
         </p>
         <div className="flex flex-col flex-grow gap-1">
           {/* <a href={`tel:${contactNumber}`}>{contactNumber}</a> */}
