@@ -4,8 +4,8 @@
     "route": "/"
   },
   {
-    "title": "Parts & Services",
-    "route": "/"
+    "title": "Dealerships",
+    "route": "/dealership"
   },
   {
     "title": "Contact us",
