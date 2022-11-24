@@ -1,11 +1,14 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { animated, useSpring } from "@react-spring/web";
 
 import requests from "../services/api/requests";
 import TextField from "./TextField";
 import TextArea from "./TextArea";
 import Spinner from "./Spinner";
+
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
 import formatPhoneNumber from "../utitlities/formatPhoneNumber";
 
@@ -43,9 +46,52 @@ const Wrapper = ({ children }) => {
   return <div className={`flex-grow`}>{children}</div>;
 };
 
+const Notification = ({ success, message, autoDismiss, setOpen }) => {
+  const intervalID = useRef(null);
+
+  useEffect(() => {
+    if (autoDismiss) {
+      intervalID.current = setInterval(() => {
+        setOpen(false);
+      }, 8000);
+    }
+
+    return () => {
+      clearInterval(intervalID.current);
+    };
+  }, [autoDismiss, setOpen]);
+
+  const bg = success ? "bg-blue-600" : "bg-red-600";
+
+  const content = (
+    <div className="flex items-center text-white">
+      <div className="h-6 w-6 flex items-center justify-center">
+        <InformationCircleIcon height={16} width={16} />
+      </div>
+      <p className="font-medium text-xs">
+        {message ?? "this is a test notification"}
+      </p>
+    </div>
+  );
+
+  return (
+    <div
+      className={`${bg} flex justify-center items-center px-2 py-1 h-8 w-full`}
+    >
+      {content}
+    </div>
+  );
+};
+
 const LeadForm = ({ isEnquiry, carData }) => {
   const [loading, setLoading] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
+  const [notification, setNotification] = useState({
+    success: true,
+    message: null,
+    autoDismiss: true,
+  });
 
   //#region EMAIL SUGGESTION
   const emailRef = useRef(null);
@@ -262,6 +308,23 @@ const LeadForm = ({ isEnquiry, carData }) => {
     };
 
     const resp = await requests.submitEnquiry(data);
+
+    if (resp) {
+      setNotification({
+        success: true,
+        message:
+          "Your enquiry has been sent successfully, our agents we'll get back to you.",
+        autoDismiss: true,
+      });
+    } else {
+      setNotification({
+        success: false,
+        message:
+          "An error has occurred while submitting your request, please try again.",
+        autoDismiss: true,
+      });
+    }
+
     return resp;
   };
 
@@ -284,7 +347,22 @@ const LeadForm = ({ isEnquiry, carData }) => {
       carterUIDState: "created",
     };
 
-    return await requests.submitLead(data);
+    const resp = await requests.submitLead(data);
+    if (resp) {
+      setNotification({
+        success: true,
+        message: "Your message has been submitted successfully.",
+        autoDismiss: true,
+      });
+    } else {
+      setNotification({
+        success: false,
+        message: "An error has occurred, please try again.",
+        autoDismiss: true,
+      });
+    }
+
+    return resp;
   };
 
   const handleSubmit = async (e) => {
@@ -305,6 +383,7 @@ const LeadForm = ({ isEnquiry, carData }) => {
         ? await submitEnquiry(formDataCopy)
         : await submitLead(formDataCopy, carData);
 
+      setNotificationOpen(true);
       resp && setFormData(defaultFormData);
 
       // notification?
@@ -312,6 +391,18 @@ const LeadForm = ({ isEnquiry, carData }) => {
 
     setLoading(false);
   };
+
+  const notificationProps = useSpring({
+    onStart: () => notificationOpen && setNotificationOpen(true),
+    onRest: () => !notificationOpen && setNotificationOpen(false),
+    from: { opacity: 0, transform: "translateY(0)" },
+    to: {
+      opacity: notificationOpen ? 1 : 0,
+      transform: notificationOpen ? "translateY(0)" : "translateY(-100%)",
+    },
+
+    config: { mass: 1, tension: 350, friction: 40 },
+  });
 
   return (
     <form className="flex flex-col flex-wrap" onSubmit={handleSubmit}>
@@ -423,6 +514,13 @@ const LeadForm = ({ isEnquiry, carData }) => {
           />
         )}
       </button>
+
+      <animated.div
+        style={notificationProps}
+        className="fixed left-0 top-0 z-50 flex items-center justify-center w-full"
+      >
+        <Notification {...notification} setOpen={setNotificationOpen} />
+      </animated.div>
     </form>
   );
 };
