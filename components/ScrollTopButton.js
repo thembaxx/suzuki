@@ -7,7 +7,6 @@ const ScrollTopButton = () => {
       type="button"
       className="flex items-center font-medium text-sm py-2 px-4 -ml-4 text-custom-tertiary"
       onClick={() => {
-        console.log("hellow");
         window.scrollTo({
           top: 0,
           left: 0,

@@ -84,22 +84,31 @@ const Section = ({ title, data }) => {
   );
 };
 
+import ScrollTopButton from "../../../../components/ScrollTopButton";
+
 const Content = ({ ...data }) => {
   return (
     <div className="w-full relative">
       <div className="bg-white border-t sticky top-24 pt-4 pb-6 px-6">
-        <h3 className="font-normal text-2xl">Overview</h3>
+        <h3 className="font-normal text-2xl">Specifications</h3>
+        <p className="text-[13px] font-medium">{`${data?.brand?.brandName} ${data?.range?.rangeName} ${data?.model?.modelName}`}</p>
       </div>
       <div className="py-2 px-6">
         <h4 className="text-[11px] uppercase font-semibold">key metrics</h4>
         <Metrics {...data} />
       </div>
+      <Section title="Features" data={data?.model?.specifications?.gadgets} />
       <Section title="Safety" data={data?.model?.specifications?.safety} />
       <Section
         title="Enviromental"
         data={data?.model?.specifications?.environmental}
       />
-      <Section title="Enviromental" data={data?.model?.specifications?.drive} />
+      <Section title="Drive" data={data?.model?.specifications?.drive} />
+      <Section title="Engine" data={data?.model?.specifications?.engine} />
+
+      <div className="px-6 pt-6">
+        <ScrollTopButton />
+      </div>
     </div>
   );
 };

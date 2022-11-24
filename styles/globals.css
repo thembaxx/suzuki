@@ -8,6 +8,20 @@
         scroll-behavior: smooth !important;
     }
 
+    body::-webkit-scrollbar {
+        width: 16px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: inherit;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        border-radius: 0;
+        border: 4px solid #ffffff;
+        background: #a19f9d;
+    }
+
     .carousel-list {
         -webkit-transform-style: preserve-3d;
         -moz-transform-style: preserve-3d;
