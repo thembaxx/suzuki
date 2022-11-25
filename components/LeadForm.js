@@ -385,8 +385,6 @@ const LeadForm = ({ isEnquiry, carData }) => {
 
       setNotificationOpen(true);
       resp && setFormData(defaultFormData);
-
-      // notification?
     }
 
     setLoading(false);
@@ -445,39 +443,42 @@ const LeadForm = ({ isEnquiry, carData }) => {
           />
         </Wrapper>
       </div>
-      <Wrapper>
-        <TextField
-          ref={emailRef}
-          label="Email"
-          value={formData.email.value}
-          error={formData.email.error}
-          placeholder="you@company.com"
-          isRequired={true}
-          isDisabled={loading}
-          onChange={(e) => {
-            emailChangeHandler(e);
-          }}
-        />
-      </Wrapper>
-      <Wrapper>
-        <TextField
-          label="Phone Number"
-          value={formData.phoneNumber.value}
-          error={formData.phoneNumber.error}
-          placeholder="Phone Number"
-          isRequired={true}
-          isDisabled={loading}
-          maxLength={14}
-          onChange={(e) => {
-            const value = formatPhoneNumber(e.target.value);
-            const newValue = {
-              ...formData.phoneNumber,
-              value,
-            };
-            setFormData((prev) => ({ ...prev, phoneNumber: newValue }));
-          }}
-        />
-      </Wrapper>
+      <div className={`flex flex-wrap ${isEnquiry && "gap-6"} w-full`}>
+        <Wrapper>
+          <TextField
+            ref={emailRef}
+            label="Email"
+            value={formData.email.value}
+            error={formData.email.error}
+            placeholder="you@company.com"
+            isRequired={true}
+            isDisabled={loading}
+            onChange={(e) => {
+              emailChangeHandler(e);
+            }}
+          />
+        </Wrapper>
+        <Wrapper>
+          <TextField
+            label="Phone Number"
+            value={formData.phoneNumber.value}
+            error={formData.phoneNumber.error}
+            placeholder="Phone Number"
+            isRequired={true}
+            isDisabled={loading}
+            maxLength={14}
+            onChange={(e) => {
+              const value = formatPhoneNumber(e.target.value);
+              const newValue = {
+                ...formData.phoneNumber,
+                value,
+              };
+              setFormData((prev) => ({ ...prev, phoneNumber: newValue }));
+            }}
+          />
+        </Wrapper>
+      </div>
+
       {isEnquiry && (
         <Wrapper>
           <TextArea
@@ -497,23 +498,25 @@ const LeadForm = ({ isEnquiry, carData }) => {
           />
         </Wrapper>
       )}
-      <button
-        disabled={loading}
-        className="flex items-center justify-center text-xs bg-custom-tertiary text-white font-medium rounded-lg h-10 hover:brightness-90 active:brightness-95 mt-4 disabled:pointer-events-none disabled:bg-opacity-95"
-        type="submit"
-      >
-        {!loading && (
-          <span>{isEnquiry ? "Submit message" : "Submit enquiry"}</span>
-        )}
-        {loading && (
-          <Spinner
-            color="text-white"
-            fill="fill-custom-primary"
-            classNameSize="h-5 w-5"
-            className="text-opacity-5"
-          />
-        )}
-      </button>
+      <div className="flex justify-start">
+        <button
+          disabled={loading}
+          className="flex items-center justify-center px-6 text-xs bg-custom-tertiary text-white font-medium rounded-lg h-10 hover:brightness-90 active:brightness-95 mt-4 disabled:pointer-events-none disabled:bg-opacity-95"
+          type="submit"
+        >
+          {!loading && (
+            <span>{isEnquiry ? "Submit message" : "Submit enquiry"}</span>
+          )}
+          {loading && (
+            <Spinner
+              color="text-white"
+              fill="fill-custom-primary"
+              classNameSize="h-5 w-5"
+              className="text-opacity-5"
+            />
+          )}
+        </button>
+      </div>
 
       <animated.div
         style={notificationProps}

@@ -17,8 +17,8 @@ const Details = () => {
 const page = () => {
   return (
     <div className="flex flex-col md:flex-row justify-center gap-16 px-6 pb-16 pt-6">
-      <div className="flex flex-col md:items-center">
-        <div className="md:max-w-[900px]">
+      <div className="flex flex-col flex-grow md:items-center">
+        <div className="md:max-w-[600px] w-full">
           <div className="mb-12 w-full">
             <h3 className="font-semibold text-lg">Contact us</h3>
             <p className="text-xs font-medium mt-1">
