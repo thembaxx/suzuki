@@ -112,7 +112,7 @@ const Notification = ({ success, message, autoDismiss, setOpen }) => {
   );
 };
 
-const LeadForm = ({ type, isEnquiry, carData }) => {
+const LeadForm = ({ type = leadFormType.contact, carData }) => {
   const [loading, setLoading] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
@@ -603,7 +603,7 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
 
       {/* Dealership & Date */}
       {type === leadFormType.bookService && (
-        <div className={`flex flex-wrap gap-2 w-full`}>
+        <div className={`flex flex-wrap gap-6 w-full`}>
           <Wrapper>
             <Dropdown
               label="Dealership"

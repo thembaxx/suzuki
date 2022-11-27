@@ -53,9 +53,12 @@ const Card = ({
         <iframe className="w-full" src={googleMapEmbed} />
       </div>
       <div className="flex items-center gap-2 text-[13px] font-medium py-3 px-3">
-        <button className="flex-grow flex-shrink-0 bg-custom-primary rounded-md text-white py-2">
+        <Link
+          href="/service"
+          className="flex-grow flex-shrink-0 bg-custom-primary rounded-md text-white py-2"
+        >
           Book a Service
-        </button>
+        </Link>
         <Link
           href="/contact"
           className="flex-grow flex-shrink-0 border rounded-md py-2"
