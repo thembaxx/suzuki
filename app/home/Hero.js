@@ -22,7 +22,7 @@ const Hero = () => {
               <span className="font-bold text-red-600 ml-1">*</span>
             </p>
             <Link
-              className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary"
+              className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-tertiary"
               href={`/range/Jimny`}
               passHref
             >
@@ -44,7 +44,7 @@ const Hero = () => {
             <span className="font-bold text-red-600 ml-1">*</span>
           </p>
           <Link
-            className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-secondary"
+            className="text-[10px] font-semibold uppercase rounded-full px-5 py-3 text-white bg-custom-tertiary tracking-wider"
             href={`/range/Jimny`}
             passHref
           >

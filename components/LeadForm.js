@@ -7,6 +7,7 @@ import requests from "../services/api/requests";
 import TextField from "./TextField";
 import TextArea from "./TextArea";
 import Spinner from "./Spinner";
+import Dropdown from "./Dropdown";
 
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
@@ -18,6 +19,26 @@ import validateEmail from "../utitlities/validateEmail";
 import validateZAPhoneNumber from "../utitlities/validateZAPhoneNumber";
 
 import emailDomains from "../data/emailDomains";
+import leadFormType from "../data/leadFormType";
+
+const ServiceDealerships = [
+  {
+    label: "Carter Mitsubishi Melrose",
+    value: "Carter Mitsubishi Melrose",
+  },
+  {
+    label: "Carter Renault Melrose",
+    value: "Carter Renault Melrose",
+  },
+  {
+    label: "Carter Renault Springfield",
+    value: "Carter Renault Springfield",
+  },
+  {
+    label: "Carter Suzuki Bramley",
+    value: "Carter Suzuki Bramley",
+  },
+];
 
 const defaultFormData = {
   firstName: {
@@ -38,6 +59,10 @@ const defaultFormData = {
   },
   message: {
     value: "",
+    error: null,
+  },
+  dealership: {
+    value: null,
     error: null,
   },
 };
@@ -83,7 +108,7 @@ const Notification = ({ success, message, autoDismiss, setOpen }) => {
   );
 };
 
-const LeadForm = ({ isEnquiry, carData }) => {
+const LeadForm = ({ type, isEnquiry, carData }) => {
   const [loading, setLoading] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
@@ -269,6 +294,26 @@ const LeadForm = ({ isEnquiry, carData }) => {
           },
         };
       }
+    }
+
+    // dealership validation
+    // First name validation
+    if (!formDataCopy.dealership.value) {
+      formDataCopy = {
+        ...formDataCopy,
+        dealership: {
+          ...formDataCopy.dealership,
+          error: "Required field!",
+        },
+      };
+    } else if (formDataCopy.firstName.error) {
+      formDataCopy = {
+        ...formDataCopy,
+        dealership: {
+          ...formDataCopy.dealership,
+          error: null,
+        },
+      };
     }
 
     // Message validation
@@ -474,6 +519,42 @@ const LeadForm = ({ isEnquiry, carData }) => {
                 value,
               };
               setFormData((prev) => ({ ...prev, phoneNumber: newValue }));
+            }}
+          />
+        </Wrapper>
+      </div>
+      <div className={`flex flex-wrap ${isEnquiry && "gap-6"} w-full`}>
+        <Wrapper>
+          <Dropdown
+            label="Dealership"
+            value={formData.dealership.value?.value}
+            placeholder="Select a dealership"
+            options={ServiceDealerships}
+            onChange={(value) => {
+              const match = ServiceDealerships.find(
+                (item) => value?.toUpperCase() === item.value.toUpperCase()
+              );
+              console.log(formData.dealership.value);
+              const newValue = {
+                ...formData.dealership,
+                value: match,
+              };
+              setFormData((prev) => ({ ...prev, dealership: newValue }));
+            }}
+          />
+        </Wrapper>
+        <Wrapper>
+          <TextField
+            ref={emailRef}
+            label="Date"
+            type="date"
+            value={formData.email.value}
+            error={formData.email.error}
+            placeholder="you@company.com"
+            isRequired={true}
+            isDisabled={loading}
+            onChange={(e) => {
+              emailChangeHandler(e);
             }}
           />
         </Wrapper>

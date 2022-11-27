@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   useState,
   Children,
@@ -11,7 +13,6 @@ import React, {
   useCallback,
 } from "react";
 
-import styled from "styled-components";
 import {
   useFloating,
   useInteractions,
@@ -28,14 +29,13 @@ import {
   shift,
   size,
 } from "@floating-ui/react-dom-interactions";
-import { animated, useSpring } from "react-spring";
+import { animated, useSpring } from "@react-spring/web";
+import { v4 as uuidv4 } from "uuid";
 
-import TextField from "../textField/TextField";
-import Separator from "../separator/Separator";
+import TextField from "./TextField";
+// import Separator from "../separator/Separator";
 
-import Typography from "../typography/Typography";
-import typography from "../../styles/typography";
-import { Check } from "phosphor-react";
+import { CheckIcon } from "@heroicons/react/24/outline";
 
 const SelectContext = createContext({
   selectedIndex: null,
@@ -48,6 +48,20 @@ const SelectContext = createContext({
   getItemProps: null,
   dataRef: null,
 });
+
+export const generateChildren = (label, options) => {
+  if (!options || options?.length === 0) return [];
+
+  return (
+    <OptionGroup key={uuidv4()} label={label}>
+      {options?.map(({ label, value }) => (
+        <Option key={uuidv4()} value={value}>
+          {label}
+        </Option>
+      ))}
+    </OptionGroup>
+  );
+};
 
 export const usePrevious = (value) => {
   const ref = useRef();
@@ -88,7 +102,8 @@ export const Option = ({ children, index = 0, value }) => {
   };
 
   return (
-    <SelectOption
+    <div
+      className="px-3 py-1 flex items-center relative"
       ref={(node) => (listRef.current[index] = node)}
       tabIndex={activeIndex === index ? 0 : 1}
       selected={selectedIndex === index}
@@ -108,11 +123,11 @@ export const Option = ({ children, index = 0, value }) => {
           }}
         ></div>
       )}
-      <div>{children}</div>
+      <div className="flex-grow">{children}</div>
       {selectedIndex === index && (
-        <Check size={16} color="#006EFF" weight="bold" />
+        <CheckIcon height={16} width={16} color="#006EFF" />
       )}
-    </SelectOption>
+    </div>
   );
 };
 
@@ -125,9 +140,8 @@ export const OptionGroup = ({ children, label }) => {
   );
 };
 
-export const Select = ({
+const Select = ({
   value,
-  placeholder,
   isDisabled,
   children,
   width,
@@ -293,9 +307,9 @@ export const Select = ({
         ((
           <ul key={child.props.label} style={{ padding: "4px 0" }}>
             {child.props.label && (
-              <Heading>
-                <Typography text={child.props.label} />
-              </Heading>
+              <div className="text-[10px] uppercase py-2 px-3">
+                <p>{child.props.label}</p>
+              </div>
             )}
             {Children.map(child.props.children, (child) =>
               cloneElement(child, { index: 1 + optionIndex++ })
@@ -362,7 +376,7 @@ export const Select = ({
       </div>
       {open && (
         <FloatingOverlay lockScroll style={{ zIndex: 100 }}>
-          <Box
+          <animated.div
             {...getFloatingProps({
               ref: floating,
               style: {
@@ -383,100 +397,32 @@ export const Select = ({
             })}
           >
             {filter && (
-              <FilterBox key="filter_box">
-                <InputBox>
+              <div key="filter_box">
+                <div>
                   <TextField
                     placeholder="Filter..."
                     autoFocus={true}
                     value={filterValue}
                     onChange={onFilterChange}
                   />
-                </InputBox>
-                <Separator />
-              </FilterBox>
+                </div>
+                {/* <Separator /> */}
+              </div>
             )}
-            <Options>
+            <div className="bg-white text-sm shadow-xl">
               {hasOptions ? (
                 options
               ) : (
-                <EmptyState>
-                  <Typography text="Empty" />
-                </EmptyState>
+                <div>
+                  <p>Nothing to display</p>
+                </div>
               )}
-            </Options>
-          </Box>
+            </div>
+          </animated.div>
         </FloatingOverlay>
       )}
     </SelectContext.Provider>
   );
 };
 
-const EmptyState = styled.div(() => ({
-  padding: "8px 16px",
-  userSelect: "none",
-  opacity: 0.8,
-}));
-
-const SelectOption = styled.li(({ selected, theme }) => ({
-  background: selected && theme.colors.interactions.pointerOverBackground,
-  cursor: "default",
-  display: "flex",
-  alignItems: "center",
-  ...typography.UI12.normal,
-  justifyContent: "space-between",
-  outline: "none",
-  padding: "8px 16px",
-  position: "relative",
-  ":hover": {
-    background: !selected && theme.colors.interactions.pointerOverBackground,
-  },
-  ":focus": {
-    background: theme.colors.interactions.pointerOverBackground,
-  },
-}));
-
-const Heading = styled.li(({ theme }) => ({
-  background: theme.colors.backgroundSecondary,
-  color: theme.colors.secondaryColor,
-  padding: "8px 16px",
-  position: "sticky",
-  top: 0,
-  textTransform: "uppercase",
-  ...typography.UI10.normal,
-  fontWeight: 300,
-  opacity: 0.67,
-}));
-
-const InputBox = styled.div(() => ({
-  padding: "8px",
-}));
-
-const FilterBox = styled.div(({ theme }) => ({
-  background: theme.colors.backgroundSecondary,
-}));
-
-const Options = styled.div(({ theme }) => ({
-  flexGrow: 1,
-  overflowY: "auto",
-  position: "relative",
-  ...typography.UI11.normal,
-  "::-webkit-scrollbar-thumb": {
-    borderRadius: "8px",
-    border: `4px solid ${theme.colors.backgroundSecondary}`,
-    background: theme.colors.scrollbarThumbBackground,
-  },
-}));
-
-const Box = styled(animated.div)(({ theme }) => ({
-  background: theme.colors.backgroundSecondary,
-  border: "0.5px solid transparent",
-  borderColor: theme.colors.borderColor,
-  borderRadius: 2,
-  boxShadow: theme.shadows.depth4,
-  dispaly: "flex",
-  flexDirection: "column",
-  overflow: "hidden",
-  flexGrow: 1,
-  outline: "none",
-  position: "relative",
-}));
+export default Select;
