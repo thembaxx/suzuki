@@ -25,7 +25,7 @@ const TextArea = ({
         onChange={onChange}
       />
 
-      <div className="flex items-center h-8">
+      <div className="flex items-center h-6">
         <p className="font-medium text-red-600 text-[11px]">{error}</p>
       </div>
     </div>

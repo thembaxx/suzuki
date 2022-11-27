@@ -28,7 +28,9 @@ const Nav = ({ menuOpen, toggleMenu }) => {
       <Link href="/">
         <div className="flex justify-left">
           <Image className="h-6" src={Logo} alt="" />
-          <p className="text-xs font-bold mt-[6px] -ml-1">Carter</p>
+          <p className="text-xs font-bold mt-[6px] -ml-1 text-[#F7941E]">
+            Carter
+          </p>
         </div>
       </Link>
       <div className="hidden md:flex uppercase font-semibold text-xs gap-4 tracking-wide">

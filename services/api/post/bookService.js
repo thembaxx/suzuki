@@ -2,7 +2,7 @@ import axios from "../axios";
 
 const bookService = async (data) => {
   try {
-    const resp = await axios.post(`Deal/InsertDeal`, {
+    const resp = await axios.post(`User/InsertContactRequest`, {
       ...data,
     });
 

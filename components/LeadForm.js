@@ -167,7 +167,7 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
 
   //#endregion
 
-  const validateFormData = (data, validateMessage) => {
+  const validateFormData = (data) => {
     let formDataCopy = { ...data };
 
     // First name validation
@@ -434,16 +434,49 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
     return resp;
   };
 
-  const bookService = async () => {};
+  const bookService = async (formData) => {
+    const data = {
+      UserFirstname: formData.firstName.value,
+      UserSurname: formData.lastName.value,
+      UserName: formData.email.value,
+      UserLastLoginDate: new Date().toDateString("en-ZA"),
+      DealerID: 173, // we need the dealer ID here
+      UserPhoneNumber: formData.phoneNumber.value,
+      ContactMessage: "", // formData.message.value,
+      UserType: "USER",
+      ServiceType: "SERVICE",
+      UserToken: uuidv4(),
+    };
+
+    const resp = await requests.submitEnquiry(data);
+
+    if (resp) {
+      setNotification({
+        success: true,
+        message:
+          "Your enquiry has been sent successfully, our agents we'll get back to you.",
+        autoDismiss: true,
+      });
+    } else {
+      setNotification({
+        success: false,
+        message:
+          "An error has occurred while submitting your request, please try again.",
+        autoDismiss: true,
+      });
+    }
+
+    return resp;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const formDataCopy = validateFormData(formData, isEnquiry);
+    const formDataCopy = validateFormData(formData);
     setFormData(formDataCopy);
 
-    if (type === leadFormType.contact) {
+    if (type !== leadFormType.contact) {
       delete formDataCopy.message;
     } else if (type === leadFormType.bookService) {
       delete formDataCopy.dealership;
@@ -491,11 +524,7 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
   return (
     <form className="flex flex-col flex-wrap" onSubmit={handleSubmit}>
       {/* Name & Surname */}
-      <div
-        className={`flex flex-wrap ${
-          type === leadFormType.contact && "gap-6"
-        } w-full`}
-      >
+      <div className={`flex flex-wrap gap-2 w-full`}>
         <Wrapper>
           <TextField
             label="First name"
@@ -536,11 +565,7 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
       </div>
 
       {/* Email & Phone */}
-      <div
-        className={`flex flex-wrap ${
-          type === leadFormType.contact && "gap-6"
-        } w-full`}
-      >
+      <div className={`flex flex-wrap gap-2 w-full`}>
         <Wrapper>
           <TextField
             ref={emailRef}
@@ -578,15 +603,11 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
 
       {/* Dealership & Date */}
       {type === leadFormType.bookService && (
-        <div
-          className={`flex flex-wrap ${
-            type === leadFormType.contact && "gap-6"
-          } w-full`}
-        >
+        <div className={`flex flex-wrap gap-2 w-full`}>
           <Wrapper>
             <Dropdown
               label="Dealership"
-              value={formData.dealership.value?.value}
+              value={formData?.dealership?.value?.value}
               placeholder="Select a dealership"
               options={ServiceDealerships}
               isRequired={true}
@@ -594,7 +615,7 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
                 const match = ServiceDealerships.find(
                   (item) => value?.toUpperCase() === item.value.toUpperCase()
                 );
-                console.log(formData.dealership.value);
+
                 const newValue = {
                   ...formData.dealership,
                   value: match,
@@ -605,11 +626,10 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
           </Wrapper>
           <Wrapper>
             <TextField
-              ref={emailRef}
               label="Date"
               type="date"
-              value={formData.serviceDate.value}
-              error={formData.serviceDate.error}
+              value={formData?.serviceDate?.value}
+              error={formData?.serviceDate?.error}
               placeholder="Service date"
               isRequired={true}
               isDisabled={loading}
@@ -631,8 +651,8 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
         <Wrapper>
           <TextArea
             label="Message"
-            value={formData.message.value}
-            error={formData.message.error}
+            value={formData?.message?.value}
+            error={formData?.message?.error}
             isRequired={true}
             isDisabled={loading}
             onChange={(e) => {
@@ -651,7 +671,7 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
       <div className="flex justify-start">
         <button
           disabled={loading}
-          className="flex items-center justify-center px-6 text-xs bg-custom-tertiary text-white font-medium rounded-lg h-10 hover:brightness-90 active:brightness-95 mt-4 disabled:pointer-events-none disabled:bg-opacity-95"
+          className="flex items-center justify-center w-36 text-xs bg-custom-tertiary text-white font-medium rounded-lg h-10 hover:brightness-90 active:brightness-95 mt-4 disabled:pointer-events-none disabled:bg-opacity-95"
           type="submit"
         >
           {!loading && (
