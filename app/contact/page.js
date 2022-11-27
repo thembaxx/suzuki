@@ -1,5 +1,6 @@
 import LeadForm from "../../components/LeadForm";
 import company from "../../data/company.json";
+import leadFormType from "../../data/leadFormType";
 
 const Details = () => {
   return (
@@ -26,7 +27,7 @@ const page = () => {
             </p>
           </div>
           {/* <Form /> */}
-          <LeadForm isEnquiry={true} />
+          <LeadForm isEnquiry={true} type={leadFormType.contact} />
         </div>
       </div>
       <div className="w-[300px]">

@@ -1,6 +1,6 @@
 const leadFormType = {
   contact: "contact",
-  enquiry: "enquiry",
+  lead: "lead",
   bookService: "bookService",
 };
 

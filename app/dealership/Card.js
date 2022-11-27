@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import formatPhoneNumber from "../../utitlities/formatPhoneNumber";
+import Link from "Next/Link";
 
 const Card = ({
   dealerID,
@@ -55,9 +56,12 @@ const Card = ({
         <button className="flex-grow flex-shrink-0 bg-custom-primary rounded-md text-white py-2">
           Book a Service
         </button>
-        <button className="flex-grow flex-shrink-0 border rounded-md py-2">
+        <Link
+          href="/contact"
+          className="flex-grow flex-shrink-0 border rounded-md py-2"
+        >
           Contact us
-        </button>
+        </Link>
       </div>
     </div>
   );

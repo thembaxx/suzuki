@@ -65,6 +65,10 @@ const defaultFormData = {
     value: null,
     error: null,
   },
+  serviceDate: {
+    value: null,
+    error: null,
+  },
 };
 
 const Wrapper = ({ children }) => {
@@ -296,28 +300,48 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
       }
     }
 
-    // dealership validation
-    // First name validation
-    if (!formDataCopy.dealership.value) {
-      formDataCopy = {
-        ...formDataCopy,
-        dealership: {
-          ...formDataCopy.dealership,
-          error: "Required field!",
-        },
-      };
-    } else if (formDataCopy.firstName.error) {
-      formDataCopy = {
-        ...formDataCopy,
-        dealership: {
-          ...formDataCopy.dealership,
-          error: null,
-        },
-      };
+    if (type === leadFormType.bookService) {
+      // dealership validation
+      if (!formDataCopy.dealership.value) {
+        formDataCopy = {
+          ...formDataCopy,
+          dealership: {
+            ...formDataCopy.dealership,
+            error: "Required field!",
+          },
+        };
+      } else if (formDataCopy.firstName.error) {
+        formDataCopy = {
+          ...formDataCopy,
+          dealership: {
+            ...formDataCopy.dealership,
+            error: null,
+          },
+        };
+      }
+
+      // Service date validation
+      if (!formDataCopy.serviceDate.value) {
+        formDataCopy = {
+          ...formDataCopy,
+          serviceDate: {
+            ...formDataCopy.serviceDate,
+            error: "Required field!",
+          },
+        };
+      } else if (formDataCopy.serviceDate.error) {
+        formDataCopy = {
+          ...formDataCopy,
+          serviceDate: {
+            ...formDataCopy.serviceDate,
+            error: null,
+          },
+        };
+      }
     }
 
     // Message validation
-    if (validateMessage) {
+    if (type === leadFormType.contact) {
       if (!formDataCopy.message.value) {
         formDataCopy = {
           ...formDataCopy,
@@ -410,6 +434,8 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
     return resp;
   };
 
+  const bookService = async () => {};
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -417,16 +443,31 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
     const formDataCopy = validateFormData(formData, isEnquiry);
     setFormData(formDataCopy);
 
-    if (!isEnquiry) {
+    if (type === leadFormType.contact) {
       delete formDataCopy.message;
+    } else if (type === leadFormType.bookService) {
+      delete formDataCopy.dealership;
+      delete formDataCopy.serviceDate;
     }
 
     if (
       !Object.values(formDataCopy).some(({ value, error }) => !value || error)
     ) {
-      const resp = isEnquiry
-        ? await submitEnquiry(formDataCopy)
-        : await submitLead(formDataCopy, carData);
+      let resp;
+      switch (type) {
+        case leadFormType.contact:
+          resp = await submitEnquiry(formDataCopy);
+          break;
+        case leadFormType.lead:
+          resp = await submitLead(formDataCopy, carData);
+          break;
+        case leadFormType.bookService:
+          resp = await bookService(formDataCopy);
+          break;
+
+        default:
+          break;
+      }
 
       setNotificationOpen(true);
       resp && setFormData(defaultFormData);
@@ -449,7 +490,12 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
 
   return (
     <form className="flex flex-col flex-wrap" onSubmit={handleSubmit}>
-      <div className={`flex flex-wrap ${isEnquiry && "gap-6"} w-full`}>
+      {/* Name & Surname */}
+      <div
+        className={`flex flex-wrap ${
+          type === leadFormType.contact && "gap-6"
+        } w-full`}
+      >
         <Wrapper>
           <TextField
             label="First name"
@@ -488,7 +534,13 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
           />
         </Wrapper>
       </div>
-      <div className={`flex flex-wrap ${isEnquiry && "gap-6"} w-full`}>
+
+      {/* Email & Phone */}
+      <div
+        className={`flex flex-wrap ${
+          type === leadFormType.contact && "gap-6"
+        } w-full`}
+      >
         <Wrapper>
           <TextField
             ref={emailRef}
@@ -523,44 +575,59 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
           />
         </Wrapper>
       </div>
-      <div className={`flex flex-wrap ${isEnquiry && "gap-6"} w-full`}>
-        <Wrapper>
-          <Dropdown
-            label="Dealership"
-            value={formData.dealership.value?.value}
-            placeholder="Select a dealership"
-            options={ServiceDealerships}
-            onChange={(value) => {
-              const match = ServiceDealerships.find(
-                (item) => value?.toUpperCase() === item.value.toUpperCase()
-              );
-              console.log(formData.dealership.value);
-              const newValue = {
-                ...formData.dealership,
-                value: match,
-              };
-              setFormData((prev) => ({ ...prev, dealership: newValue }));
-            }}
-          />
-        </Wrapper>
-        <Wrapper>
-          <TextField
-            ref={emailRef}
-            label="Date"
-            type="date"
-            value={formData.email.value}
-            error={formData.email.error}
-            placeholder="you@company.com"
-            isRequired={true}
-            isDisabled={loading}
-            onChange={(e) => {
-              emailChangeHandler(e);
-            }}
-          />
-        </Wrapper>
-      </div>
 
-      {isEnquiry && (
+      {/* Dealership & Date */}
+      {type === leadFormType.bookService && (
+        <div
+          className={`flex flex-wrap ${
+            type === leadFormType.contact && "gap-6"
+          } w-full`}
+        >
+          <Wrapper>
+            <Dropdown
+              label="Dealership"
+              value={formData.dealership.value?.value}
+              placeholder="Select a dealership"
+              options={ServiceDealerships}
+              isRequired={true}
+              onChange={(value) => {
+                const match = ServiceDealerships.find(
+                  (item) => value?.toUpperCase() === item.value.toUpperCase()
+                );
+                console.log(formData.dealership.value);
+                const newValue = {
+                  ...formData.dealership,
+                  value: match,
+                };
+                setFormData((prev) => ({ ...prev, dealership: newValue }));
+              }}
+            />
+          </Wrapper>
+          <Wrapper>
+            <TextField
+              ref={emailRef}
+              label="Date"
+              type="date"
+              value={formData.serviceDate.value}
+              error={formData.serviceDate.error}
+              placeholder="Service date"
+              isRequired={true}
+              isDisabled={loading}
+              onChange={(e) => {
+                const value = e.target.value;
+                const newValue = {
+                  ...formData.serviceDate,
+                  value,
+                };
+                setFormData((prev) => ({ ...prev, serviceDate: newValue }));
+              }}
+            />
+          </Wrapper>
+        </div>
+      )}
+
+      {/* Message */}
+      {type === leadFormType.contact && (
         <Wrapper>
           <TextArea
             label="Message"
@@ -579,6 +646,8 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
           />
         </Wrapper>
       )}
+
+      {/* Submit button */}
       <div className="flex justify-start">
         <button
           disabled={loading}
@@ -586,7 +655,13 @@ const LeadForm = ({ type, isEnquiry, carData }) => {
           type="submit"
         >
           {!loading && (
-            <span>{isEnquiry ? "Submit message" : "Submit enquiry"}</span>
+            <span>
+              {type === leadFormType.contact
+                ? "Submit message"
+                : type === leadFormType.lead
+                ? "Submit enquiry"
+                : "Book service"}
+            </span>
           )}
           {loading && (
             <Spinner

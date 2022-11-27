@@ -7,6 +7,8 @@ import Content from "./Content";
 import LeadForm from "../../../../components/LeadForm";
 import Carousel from "../../../../components/Carousel";
 
+import leadFormType from "../../../../data/leadFormType";
+
 const fetchCar = async (modelID) => {
   const resp = await requests.getCar(modelID);
   return resp;
@@ -71,10 +73,6 @@ const Header = ({ range, model, ...data }) => {
 const Page = async ({ params }) => {
   const { modelID } = params;
   const data = await fetchCar(modelID);
-  // let model;
-  // if (data) {
-  //   model = data?.model;
-  // }
 
   return (
     <div className="flex flex-col lg:flex-row relative">
@@ -96,7 +94,7 @@ const Page = async ({ params }) => {
             </p>
           </div>
           <div className="flex-grow">
-            <LeadForm carData={data} />
+            <LeadForm carData={data} type={leadFormType.lead} />
           </div>
         </div>
       </div>
